@@ -4,12 +4,16 @@ import type { Message } from '../../types/chat';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 
+import type { NotificationSeverity } from '../../hooks/useNotifications';
+
 interface ChatPanelProps {
   messages: Message[];
   isConnected: boolean;
   isLoading: boolean;
   onSendMessage: (content: string, fileContext?: Record<string, unknown>) => void;
   onToggleSidebar?: () => void;
+  onNotify?: (message: string, severity: NotificationSeverity, durationMs?: number) => number;
+  onNotifyUpdate?: (id: number, message: string, severity: NotificationSeverity, durationMs?: number) => void;
 }
 
 export default function ChatPanel({
@@ -18,6 +22,8 @@ export default function ChatPanel({
   isLoading,
   onSendMessage,
   onToggleSidebar,
+  onNotify,
+  onNotifyUpdate,
 }: ChatPanelProps) {
   const handleNearbyMRT = () => {
     // Location is automatically attached to every message by useChat,
@@ -122,7 +128,7 @@ export default function ChatPanel({
       </Box>
 
       {/* Input area */}
-      <MessageInput onSend={onSendMessage} disabled={!isConnected || isLoading} isLoading={isLoading} />
+      <MessageInput onSend={onSendMessage} disabled={!isConnected || isLoading} isLoading={isLoading} onNotify={onNotify} onNotifyUpdate={onNotifyUpdate} />
     </Box>
   );
 }

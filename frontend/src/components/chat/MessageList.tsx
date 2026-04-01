@@ -4,6 +4,64 @@ import Markdown from 'react-markdown';
 import type { Message } from '../../types/chat';
 import ToolCallDisplay from './ToolCallDisplay';
 
+/**
+ * Strip `{"mapCommands":[...]}` JSON blocks from text so they never render in chat.
+ * Uses bracket-counting to handle nested braces correctly.
+ */
+function stripMapCommands(text: string): string {
+  let result = text;
+  const KEY = '"mapCommands"';
+  let searchFrom = 0;
+
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const keyIdx = result.indexOf(KEY, searchFrom);
+    if (keyIdx === -1) break;
+
+    // Walk backwards over whitespace to find opening brace
+    let objStart = keyIdx - 1;
+    while (objStart >= 0 && ' \t\n\r'.includes(result[objStart])) objStart--;
+    if (objStart < 0 || result[objStart] !== '{') {
+      searchFrom = keyIdx + 1;
+      continue;
+    }
+
+    // Forward-scan with bracket counting
+    let depth = 0;
+    let i = objStart;
+    let objEnd = -1;
+    while (i < result.length) {
+      const ch = result[i];
+      if (ch === '"') {
+        i++;
+        while (i < result.length) {
+          if (result[i] === '\\') { i += 2; continue; }
+          if (result[i] === '"') break;
+          i++;
+        }
+      } else if (ch === '{') {
+        depth++;
+      } else if (ch === '}') {
+        depth--;
+        if (depth === 0) { objEnd = i + 1; break; }
+      }
+      i++;
+    }
+
+    if (objEnd === -1) {
+      // Partial JSON still streaming — hide everything from objStart onwards
+      result = result.substring(0, objStart).trimEnd();
+      break;
+    }
+
+    // Remove the block
+    result = result.substring(0, objStart) + result.substring(objEnd);
+    searchFrom = objStart;
+  }
+
+  return result.replace(/\n{3,}/g, '\n\n').trimEnd();
+}
+
 /** Animated bouncing dots shown while the agent is thinking / calling tools. */
 function ThinkingDots() {
   return (
@@ -124,7 +182,7 @@ export default function MessageList({ messages, isLoading }: MessageListProps) {
               {showDots ? (
                 <ThinkingDots />
               ) : msg.role === 'assistant' ? (
-                <Markdown>{msg.content}</Markdown>
+                <Markdown>{stripMapCommands(msg.content)}</Markdown>
               ) : (
                 <Typography variant="body2">{msg.content}</Typography>
               )}

@@ -15,7 +15,7 @@ export default function MapPolygons({ polygons }: MapPolygonsProps) {
           pathOptions={{
             color: poly.color || '#3388ff',
             fillColor: poly.fillColor || '#3388ff',
-            fillOpacity: 0.45,
+            fillOpacity: 0.6,
             weight: 3,
           }}
         >

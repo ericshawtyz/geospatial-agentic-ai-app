@@ -26,10 +26,13 @@ export default function TopNavBar({ onSignOut }: TopNavBarProps) {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Typography
           variant="h6"
+          onClick={() => window.location.reload()}
           sx={{
             fontWeight: 500,
             fontSize: '18px',
             letterSpacing: '0.15px',
+            cursor: 'pointer',
+            userSelect: 'none',
           }}
         >
           Geospatial Agentic AI

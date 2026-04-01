@@ -25,17 +25,24 @@ export function useChat(): UseChatReturn {
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const streamingIdRef = useRef<string | null>(null);
+  const userLocationRef = useRef<UserLocation | null>(null);
 
-  // Capture browser geolocation on mount
+  // Capture browser geolocation on mount; fall back to Raffles City Convention Centre
   useEffect(() => {
-    if (!navigator.geolocation) return;
-    const onPos = (pos: GeolocationPosition) => {
-      setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+    const fallback: UserLocation = { lat: 1.2946, lng: 103.8535 };
+    const set = (loc: UserLocation) => {
+      setUserLocation(loc);
+      userLocationRef.current = loc;
     };
-    navigator.geolocation.getCurrentPosition(onPos, () => {}, {
-      enableHighAccuracy: true,
-      timeout: 10000,
-    });
+    if (!navigator.geolocation) {
+      set(fallback);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => set({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => set(fallback),
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
   }, []);
 
   const connect = useCallback(() => {
@@ -206,8 +213,8 @@ export function useChat(): UseChatReturn {
       if (fileContext) {
         payload.fileContext = fileContext;
       }
-      if (userLocation) {
-        payload.userLocation = userLocation;
+      if (userLocationRef.current) {
+        payload.userLocation = userLocationRef.current;
       }
 
       wsRef.current.send(JSON.stringify(payload));

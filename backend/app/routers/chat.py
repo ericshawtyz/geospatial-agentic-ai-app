@@ -41,6 +41,7 @@ async def chat_websocket(websocket: WebSocket):
             t0 = time.perf_counter()
             tool_count = 0
             delta_count = 0
+            tool_results: list[dict] = []  # Track completed tool results for fallback
 
             # Stream chunks to client
             full_response = ""
@@ -53,6 +54,11 @@ async def chat_websocket(websocket: WebSocket):
                     )
                 elif event["type"] == "tool_call":
                     tool_count += 1
+                    if event["status"] == "completed" and event.get("result"):
+                        tool_results.append({
+                            "name": event["name"],
+                            "result": event["result"],
+                        })
                     logger.info(
                         "[%s]   tool %s status=%s",
                         session_id[:8],
@@ -73,6 +79,20 @@ async def chat_websocket(websocket: WebSocket):
 
             # Parse the complete response for map commands
             text_content, map_commands = _parse_agent_response(full_response)
+
+            # Fallback: if the agent used tools but forgot mapCommands,
+            # try to auto-extract from tool results (GeoJSON) or response text.
+            if not map_commands and tool_count > 0:
+                fallback_cmds = _extract_fallback_from_tool_results(tool_results)
+                if not fallback_cmds:
+                    fallback_cmds = _extract_fallback_map_commands(full_response)
+                if fallback_cmds:
+                    map_commands = fallback_cmds
+                    logger.info(
+                        "[%s]   ↳ injected %d fallback map commands",
+                        session_id[:8],
+                        len(fallback_cmds),
+                    )
 
             logger.info(
                 "[%s] <<< Done in %.1fs | %d deltas | %d tool calls | %d map cmds | response len=%d",
@@ -190,3 +210,197 @@ def _find_map_command_blocks(text: str) -> list[tuple[int, int, list[dict]]]:
         search_from = obj_end
 
     return results
+
+
+def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
+    """Build map commands from tool results that contain GeoJSON or coordinate data."""
+    commands: list[dict] = []
+    markers: list[dict] = []
+
+    for tr in tool_results:
+        result_str = tr.get("result", "")
+        try:
+            result_data = json.loads(result_str) if isinstance(result_str, str) else result_str
+        except (json.JSONDecodeError, TypeError):
+            continue
+
+        if not isinstance(result_data, dict):
+            continue
+
+        # Case 1: Tool returned a geojson field (e.g. get_planning_area_boundary)
+        geojson = result_data.get("geojson")
+        if isinstance(geojson, dict) and geojson.get("type") in (
+            "Polygon", "MultiPolygon", "Point", "MultiPoint",
+            "LineString", "MultiLineString", "GeometryCollection",
+            "Feature", "FeatureCollection",
+        ):
+            name = result_data.get("name", "")
+            # Wrap bare geometry in a FeatureCollection
+            if geojson["type"] in ("Feature", "FeatureCollection"):
+                fc = geojson
+            else:
+                fc = {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "properties": {"label": name},
+                        "geometry": geojson,
+                    }],
+                }
+
+            # Compute centroid from coordinates for setView
+            centroid = _geojson_centroid(geojson)
+
+            if not commands:
+                commands.append({"action": "clearMap", "data": {}})
+
+            if centroid:
+                commands.append({
+                    "action": "setView",
+                    "data": {"lat": centroid[0], "lng": centroid[1], "zoom": 13},
+                })
+
+            commands.append({
+                "action": "addGeoJSON",
+                "data": {
+                    "geojson": fc,
+                    "style": {"color": "#3388ff", "weight": 3, "fillOpacity": 0.6},
+                },
+            })
+
+        # Case 2: Tool returned results with lat/lng fields (e.g. search results)
+        for key in ("results", "SearchResults", "Result"):
+            items = result_data.get(key)
+            if not isinstance(items, list):
+                continue
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                lat = item.get("LATITUDE") or item.get("latitude") or item.get("lat")
+                lng = item.get("LONGITUDE") or item.get("longitude") or item.get("lng")
+                if lat is not None and lng is not None:
+                    try:
+                        lat_f, lng_f = float(lat), float(lng)
+                        if 1.1 <= lat_f <= 1.5 and 103.5 <= lng_f <= 104.1:
+                            label = (
+                                item.get("SEARCHVAL") or item.get("BUILDING")
+                                or item.get("ADDRESS") or item.get("name") or ""
+                            )
+                            markers.append({"lat": lat_f, "lng": lng_f, "label": label, "popup": label})
+                    except (ValueError, TypeError):
+                        pass
+
+    if markers and not commands:
+        commands.append({"action": "clearMap", "data": {}})
+        avg_lat = sum(m["lat"] for m in markers) / len(markers)
+        avg_lng = sum(m["lng"] for m in markers) / len(markers)
+        commands.append({
+            "action": "setView",
+            "data": {"lat": avg_lat, "lng": avg_lng, "zoom": 15 if len(markers) <= 3 else 13},
+        })
+        commands.append({"action": "addMarkers", "data": {"markers": markers}})
+
+    return commands
+
+
+def _geojson_centroid(geojson: dict) -> list[float] | None:
+    """Compute approximate centroid [lat, lng] from GeoJSON geometry."""
+    coords = []
+
+    def _collect(obj: dict) -> None:
+        gtype = obj.get("type", "")
+        raw = obj.get("coordinates", [])
+        if gtype == "Point" and raw:
+            coords.append(raw)
+        elif gtype in ("LineString", "MultiPoint") and raw:
+            coords.extend(raw)
+        elif gtype in ("Polygon", "MultiLineString") and raw:
+            for ring in raw:
+                if isinstance(ring, list):
+                    coords.extend(r for r in ring if isinstance(r, list) and len(r) >= 2)
+        elif gtype == "MultiPolygon" and raw:
+            for poly in raw:
+                for ring in poly:
+                    if isinstance(ring, list):
+                        coords.extend(r for r in ring if isinstance(r, list) and len(r) >= 2)
+        elif gtype == "Feature":
+            geom = obj.get("geometry")
+            if isinstance(geom, dict):
+                _collect(geom)
+        elif gtype == "FeatureCollection":
+            for feat in obj.get("features", []):
+                if isinstance(feat, dict):
+                    _collect(feat)
+
+    _collect(geojson)
+    if not coords:
+        return None
+
+    # GeoJSON is [lng, lat]; return [lat, lng]
+    lats = [c[1] for c in coords]
+    lngs = [c[0] for c in coords]
+    return [(min(lats) + max(lats)) / 2, (min(lngs) + max(lngs)) / 2]
+
+
+def _extract_fallback_map_commands(text: str) -> list[dict]:
+    """Best-effort extraction of coordinate pairs from agent text when mapCommands are missing.
+
+    Scans for patterns like 'latitude=1.3, longitude=103.8' or '(1.3, 103.8)' or
+    explicit 'lat.*1.3.*lng.*103.8' and builds addMarkers + setView commands.
+    """
+    import re
+
+    markers: list[dict] = []
+    seen: set[tuple[float, float]] = set()
+
+    # Pattern 1: latitude=X, longitude=Y  /  lat: X, lng: Y  /  Latitude: X, Longitude: Y
+    for m in re.finditer(
+        r"lat(?:itude)?\s*[:=]\s*(-?\d+\.\d+)[,;\s]+lon(?:gitude)?|lng\s*[:=]\s*(-?\d+\.\d+)",
+        text,
+        re.IGNORECASE,
+    ):
+        pass  # handled below with a better pattern
+
+    for m in re.finditer(
+        r"lat(?:itude)?\s*[:=]\s*(-?\d+\.?\d*)\b[^.\d]*?lon(?:g(?:itude)?)?|lng\s*[:=]\s*(-?\d+\.?\d*)",
+        text,
+        re.IGNORECASE,
+    ):
+        pass  # consolidated below
+
+    # Consolidated: capture lat/lng pairs in various formats
+    pair_pattern = re.compile(
+        r"lat(?:itude)?\s*[:=]\s*(-?\d+\.\d+)\s*[,;/\s]+\s*(?:lon(?:gitude)?|lng)\s*[:=]\s*(-?\d+\.\d+)",
+        re.IGNORECASE,
+    )
+    for m in pair_pattern.finditer(text):
+        lat, lng = float(m.group(1)), float(m.group(2))
+        if 1.1 <= lat <= 1.5 and 103.5 <= lng <= 104.1 and (lat, lng) not in seen:
+            seen.add((lat, lng))
+            markers.append({"lat": lat, "lng": lng, "label": "", "popup": ""})
+
+    # Pattern 2: coordinates like (1.3521, 103.8198) within Singapore bounds
+    coord_pattern = re.compile(
+        r"\(\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*\)"
+    )
+    for m in coord_pattern.finditer(text):
+        a, b = float(m.group(1)), float(m.group(2))
+        # Determine which is lat vs lng by Singapore bounds
+        if 1.1 <= a <= 1.5 and 103.5 <= b <= 104.1 and (a, b) not in seen:
+            seen.add((a, b))
+            markers.append({"lat": a, "lng": b, "label": "", "popup": ""})
+
+    if not markers:
+        return []
+
+    # Build map commands
+    commands: list[dict] = [{"action": "clearMap", "data": {}}]
+
+    # Center on the first marker or centroid
+    avg_lat = sum(m["lat"] for m in markers) / len(markers)
+    avg_lng = sum(m["lng"] for m in markers) / len(markers)
+    zoom = 15 if len(markers) <= 3 else 13
+    commands.append({"action": "setView", "data": {"lat": avg_lat, "lng": avg_lng, "zoom": zoom}})
+    commands.append({"action": "addMarkers", "data": {"markers": markers}})
+
+    return commands

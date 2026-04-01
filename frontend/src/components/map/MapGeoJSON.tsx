@@ -14,7 +14,7 @@ export default function MapGeoJSON({ layers }: MapGeoJSONProps) {
           color: layer.style?.color || '#ff6600',
           weight: layer.style?.weight || 3,
           fillColor: layer.style?.fillColor || '#ff6600',
-          fillOpacity: layer.style?.fillOpacity || 0.45,
+          fillOpacity: layer.style?.fillOpacity || 0.6,
         };
 
         return (

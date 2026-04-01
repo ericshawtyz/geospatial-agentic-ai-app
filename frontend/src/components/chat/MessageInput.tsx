@@ -2,14 +2,17 @@ import { useState, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import FileUploadButton from './FileUploadButton';
 import { uploadFile } from '../../services/api';
+import type { NotificationSeverity } from '../../hooks/useNotifications';
 
 interface MessageInputProps {
   onSend: (content: string, fileContext?: Record<string, unknown>) => void;
   disabled: boolean;
   isLoading?: boolean;
+  onNotify?: (message: string, severity: NotificationSeverity, durationMs?: number) => number;
+  onNotifyUpdate?: (id: number, message: string, severity: NotificationSeverity, durationMs?: number) => void;
 }
 
-export default function MessageInput({ onSend, disabled, isLoading }: MessageInputProps) {
+export default function MessageInput({ onSend, disabled, isLoading, onNotify, onNotifyUpdate }: MessageInputProps) {
   const [input, setInput] = useState('');
   const [pendingFileContext, setPendingFileContext] = useState<Record<string, unknown> | null>(null);
 
@@ -33,9 +36,18 @@ export default function MessageInput({ onSend, disabled, isLoading }: MessageInp
   );
 
   const handleFileSelected = useCallback(async (file: File) => {
+    const nid = onNotify?.(`Uploading ${file.name}...`, 'info', 0) ?? 0;
     try {
+      onNotifyUpdate?.(nid, `Processing ${file.name}...`, 'info', 0);
       const result = await uploadFile(file);
+
+      if (result.type === 'error') {
+        onNotifyUpdate?.(nid, `Failed: ${(result.message as string) || 'Unknown error'}`, 'error', 5000);
+        return;
+      }
+
       setPendingFileContext(result);
+      onNotifyUpdate?.(nid, `${file.name} ready`, 'success', 3000);
 
       if (result.type === 'geojson') {
         setInput(`I've uploaded a GeoJSON file: ${file.name}. Please display it on the map and describe what it contains.`);
@@ -43,9 +55,10 @@ export default function MessageInput({ onSend, disabled, isLoading }: MessageInp
         setInput(`I've uploaded a file: ${file.name}. Please analyze its contents.`);
       }
     } catch {
+      onNotifyUpdate?.(nid, `Upload failed for ${file.name}`, 'error', 5000);
       setInput(`Failed to upload ${file.name}. Please try again.`);
     }
-  }, []);
+  }, [onNotify, onNotifyUpdate]);
 
   const canSend = !disabled && input.trim().length > 0;
 

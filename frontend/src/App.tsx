@@ -5,8 +5,10 @@ import AppLayout from './components/AppLayout';
 import ChatPanel from './components/chat/ChatPanel';
 import MapPanel from './components/map/MapPanel';
 import LoginPage from './components/LoginPage';
+import NotificationBanner from './components/NotificationBanner';
 import { useChat } from './hooks/useChat';
 import { useMapCommands, useMapCommandProcessor } from './hooks/useMapCommands';
+import { useNotifications } from './hooks/useNotifications';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(
@@ -38,6 +40,7 @@ function App() {
 function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   const { messages, isConnected, isLoading, sendMessage, mapCommands, clearMapCommands } = useChat();
   const { mapState, processCommands } = useMapCommands();
+  const { notifications, notify, update, dismiss } = useNotifications();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
@@ -62,6 +65,8 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
   };
 
   return (
+    <>
+      <NotificationBanner notifications={notifications} onDismiss={dismiss} />
       <AppLayout
         sidebarOpen={sidebarOpen}
         onToggleSidebar={toggleSidebar}
@@ -73,10 +78,13 @@ function AuthenticatedApp({ onSignOut }: { onSignOut: () => void }) {
             isLoading={isLoading}
             onSendMessage={handleSendMessage}
             onToggleSidebar={toggleSidebar}
+            onNotify={notify}
+            onNotifyUpdate={update}
           />
         }
         mapPanel={<MapPanel mapState={mapState} />}
       />
+    </>
   );
 }
 

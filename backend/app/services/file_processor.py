@@ -116,53 +116,63 @@ async def _process_image(
 async def _process_document(
     file_bytes: bytes, filename: str, content_type: str
 ) -> dict:
-    """Process document using GPT-4o vision (PDF pages as images)."""
-    import base64
+    """Process PDF/document using Azure Content Understanding for text and table extraction."""
+    from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
+    from azure.ai.contentunderstanding.models import DocumentContent
 
-    b64 = base64.b64encode(file_bytes).decode("utf-8")
+    endpoint = settings.azure_content_understanding_endpoint
+    if not endpoint:
+        return {
+            "type": "error",
+            "filename": filename,
+            "message": (
+                "PDF processing requires Azure Content Understanding. "
+                "Set AZURE_CONTENT_UNDERSTANDING_ENDPOINT in your .env file."
+            ),
+        }
 
     credential = DefaultAzureCredential()
     try:
-        token = await credential.get_token(
-            "https://cognitiveservices.azure.com/.default"
-        )
-        client = AsyncAzureOpenAI(
-            azure_endpoint=settings.azure_content_understanding_endpoint
-            or settings.azure_ai_project_endpoint.split("/api/")[0],
-            azure_ad_token=token.token,
-            api_version="2024-12-01-preview",
-        )
+        async with ContentUnderstandingClient(
+            endpoint=endpoint, credential=credential
+        ) as client:
+            poller = await client.begin_analyze_binary(
+                analyzer_id="prebuilt-documentSearch",
+                binary_input=file_bytes,
+            )
+            result = await poller.result()
 
-        response = await client.chat.completions.create(
-            model=settings.model_deployment_name,
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": (
-                                "Analyze this document. Extract all text content, tables, and any "
-                                "spatial/geographic references (addresses, locations, coordinates, "
-                                "land lots, planning areas). Return a structured summary."
-                            ),
-                        },
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:{content_type};base64,{b64}"
-                            },
-                        },
-                    ],
-                }
-            ],
-            max_tokens=4000,
-        )
+        if not result.contents or len(result.contents) == 0:
+            return {
+                "type": "error",
+                "filename": filename,
+                "message": "No content extracted from document.",
+            }
+
+        content_item = result.contents[0]
+        markdown = content_item.markdown or ""
+
+        # Truncate if extremely large to avoid context window issues
+        if len(markdown) > 15000:
+            markdown = markdown[:15000] + "\n\n... (document truncated, showing first ~15000 characters)"
+
+        page_count = 0
+        if isinstance(content_item, DocumentContent):
+            start = content_item.start_page_number or 1
+            end = content_item.end_page_number or 1
+            page_count = end - start + 1
 
         return {
             "type": "document_analysis",
             "filename": filename,
-            "content": response.choices[0].message.content,
+            "content": markdown,
+            "page_count": page_count,
+        }
+    except Exception as e:
+        return {
+            "type": "error",
+            "filename": filename,
+            "message": f"Content Understanding error: {e}",
         }
     finally:
         await credential.close()
