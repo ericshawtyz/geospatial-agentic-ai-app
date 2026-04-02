@@ -1,0 +1,1338 @@
+[
+    {
+        "HSE_BLK_NUM": 31,
+        "HYPERLINK": "www.admiraltysec.moe.edu.sg",
+        "LATITUDE": 1.4458907,
+        "LONGITUDE": 103.8023982,
+        "POSTAL_CODE": "737916",
+        "ROAD_NAME": "WOODLANDS CRESCENT",
+        "SCHOOLNAME": "ADMIRALTY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 751,
+        "HYPERLINK": "www.ahmadibrahimsec.moe.edu.sg",
+        "LATITUDE": 1.4360598,
+        "LONGITUDE": 103.8297187,
+        "POSTAL_CODE": "768928",
+        "ROAD_NAME": "YISHUN AVENUE 7",
+        "SCHOOLNAME": "AHMAD IBRAHIM SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.andersonsec.moe.edu.sg",
+        "LATITUDE": 1.37434,
+        "LONGITUDE": 103.8515541,
+        "POSTAL_CODE": "569206",
+        "ROAD_NAME": "ANG MO KIO STREET 53",
+        "SCHOOLNAME": "ANDERSON SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 6,
+        "HYPERLINK": "www.angmokiosec.moe.edu.sg",
+        "LATITUDE": 1.3673371,
+        "LONGITUDE": 103.842155,
+        "POSTAL_CODE": "569362",
+        "ROAD_NAME": "ANG MO KIO STREET 22",
+        "SCHOOLNAME": "ANG MO KIO SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 600,
+        "HYPERLINK": "www.anglicanhigh.moe.edu.sg",
+        "LATITUDE": 1.3305813,
+        "LONGITUDE": 103.9410825,
+        "POSTAL_CODE": "487012",
+        "ROAD_NAME": "UPPER CHANGI ROAD",
+        "SCHOOLNAME": "ANGLICAN HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 60,
+        "HYPERLINK": "www.acsbr.moe.edu.sg",
+        "LATITUDE": 1.3196165,
+        "LONGITUDE": 103.8357727,
+        "POSTAL_CODE": "309919",
+        "ROAD_NAME": "BARKER ROAD",
+        "SCHOOLNAME": "ANGLO-CHINESE SCHOOL (BARKER ROAD)"
+    },
+    {
+        "HSE_BLK_NUM": 121,
+        "HYPERLINK": "www.acsindep.moe.edu.sg",
+        "LATITUDE": 1.3037041,
+        "LONGITUDE": 103.7803634,
+        "POSTAL_CODE": "139650",
+        "ROAD_NAME": "DOVER ROAD",
+        "SCHOOLNAME": "ANGLO-CHINESE SCHOOL (INDEPENDENT)"
+    },
+    {
+        "HSE_BLK_NUM": 622,
+        "HYPERLINK": "www.assumptionenglish.moe.edu.sg",
+        "LATITUDE": 1.3683816,
+        "LONGITUDE": 103.7666875,
+        "POSTAL_CODE": "678117",
+        "ROAD_NAME": "UPPER BUKIT TIMAH ROAD",
+        "SCHOOLNAME": "ASSUMPTION ENGLISH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 30,
+        "HYPERLINK": "www.aps.edu.sg",
+        "LATITUDE": 1.3696707,
+        "LONGITUDE": 103.7659591,
+        "MOREINFO": "The school does not participate in the S1 posting process. Interested students should apply directly to the school. Refer to their website for admission information.",
+        "POSTAL_CODE": "679697",
+        "ROAD_NAME": "CASHEW ROAD",
+        "SCHOOLNAME": "ASSUMPTION PATHWAY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.bartleysec.moe.edu.sg",
+        "LATITUDE": 1.3399542,
+        "LONGITUDE": 103.8828062,
+        "POSTAL_CODE": "538403",
+        "ROAD_NAME": "JALAN BUNGA RAMPAI",
+        "SCHOOLNAME": "BARTLEY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.beattysec.moe.edu.sg",
+        "LATITUDE": 1.3417903,
+        "LONGITUDE": 103.8522808,
+        "POSTAL_CODE": "318990",
+        "ROAD_NAME": "TOA PAYOH NORTH",
+        "SCHOOLNAME": "BEATTY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 360,
+        "HYPERLINK": "www.bedokgreensec.moe.edu.sg",
+        "LATITUDE": 1.3345195,
+        "LONGITUDE": 103.9350284,
+        "POSTAL_CODE": "469722",
+        "ROAD_NAME": "BEDOK NORTH AVENUE 3",
+        "SCHOOLNAME": "BEDOK GREEN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.bedoksouthsec.moe.edu.sg",
+        "LATITUDE": 1.3251366,
+        "LONGITUDE": 103.9509891,
+        "POSTAL_CODE": "468585",
+        "ROAD_NAME": "JALAN LANGGAR BEDOK",
+        "SCHOOLNAME": "BEDOK SOUTH SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 6,
+        "HYPERLINK": "www.bedokviewsec.moe.edu.sg",
+        "LATITUDE": 1.324157,
+        "LONGITUDE": 103.9437762,
+        "POSTAL_CODE": "469293",
+        "ROAD_NAME": "BEDOK SOUTH AVENUE 3",
+        "SCHOOLNAME": "BEDOK VIEW SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.bendemeersec.moe.edu.sg",
+        "LATITUDE": 1.3243484,
+        "LONGITUDE": 103.8605183,
+        "POSTAL_CODE": "327919",
+        "ROAD_NAME": "ST WILFRED ROAD",
+        "SCHOOLNAME": "BENDEMEER SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.boonlaysec.moe.edu.sg",
+        "LATITUDE": 1.3427222,
+        "LONGITUDE": 103.7018915,
+        "POSTAL_CODE": "648354",
+        "ROAD_NAME": "JURONG WEST STREET 65",
+        "SCHOOLNAME": "BOON LAY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.bowensec.moe.edu.sg",
+        "LATITUDE": 1.3703599,
+        "LONGITUDE": 103.8776596,
+        "POSTAL_CODE": "547529",
+        "ROAD_NAME": "LORONG NAPIRI",
+        "SCHOOLNAME": "BOWEN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 61,
+        "HYPERLINK": "www.broadricksec.moe.edu.sg",
+        "LATITUDE": 1.3070506,
+        "LONGITUDE": 103.8869179,
+        "POSTAL_CODE": "399935",
+        "ROAD_NAME": "DAKOTA CRESCENT",
+        "SCHOOLNAME": "BROADRICK SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 50,
+        "HYPERLINK": "www.bukitbatoksec.moe.edu.sg",
+        "LATITUDE": 1.3484911,
+        "LONGITUDE": 103.7408737,
+        "POSTAL_CODE": "658962",
+        "ROAD_NAME": "BUKIT BATOK WEST AVENUE 8",
+        "SCHOOLNAME": "BUKIT BATOK SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.bukitmerahsec.moe.edu.sg",
+        "LATITUDE": 1.2856928,
+        "LONGITUDE": 103.8134389,
+        "POSTAL_CODE": "159050",
+        "ROAD_NAME": "LENGKOK BAHRU",
+        "SCHOOLNAME": "BUKIT MERAH SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 7,
+        "HYPERLINK": "www.bpghs.moe.edu.sg",
+        "LATITUDE": 1.3822424,
+        "LONGITUDE": 103.7383612,
+        "POSTAL_CODE": "689809",
+        "ROAD_NAME": "CHOA CHU KANG AVENUE 4",
+        "SCHOOLNAME": "BUKIT PANJANG GOVT. HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 16,
+        "HYPERLINK": "www.bukitviewsec.moe.edu.sg",
+        "LATITUDE": 1.3457331,
+        "LONGITUDE": 103.7522266,
+        "POSTAL_CODE": "659633",
+        "ROAD_NAME": "BUKIT BATOK STREET 21",
+        "SCHOOLNAME": "BUKIT VIEW SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 51,
+        "HYPERLINK": "www.canberrasec.moe.edu.sg",
+        "LATITUDE": 1.4531909,
+        "LONGITUDE": 103.8142036,
+        "POSTAL_CODE": "757699",
+        "ROAD_NAME": "SEMBAWANG DRIVE",
+        "SCHOOLNAME": "CANBERRA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 9,
+        "HYPERLINK": "www.catholichigh.moe.edu.sg",
+        "LATITUDE": 1.3547231,
+        "LONGITUDE": 103.8448747,
+        "POSTAL_CODE": "579767",
+        "ROAD_NAME": "BISHAN STREET 22",
+        "SCHOOLNAME": "CATHOLIC HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.cedargirlssec.moe.edu.sg",
+        "LATITUDE": 1.333758,
+        "LONGITUDE": 103.8739331,
+        "POSTAL_CODE": "349692",
+        "ROAD_NAME": "CEDAR AVENUE",
+        "SCHOOLNAME": "CEDAR GIRLS' SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 23,
+        "HYPERLINK": "www.changkatchangisec.moe.edu.sg",
+        "LATITUDE": 1.3395063,
+        "LONGITUDE": 103.9532455,
+        "POSTAL_CODE": "529894",
+        "ROAD_NAME": "SIMEI STREET 3",
+        "SCHOOLNAME": "CHANGKAT CHANGI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 346,
+        "HYPERLINK": "www.chijkatongconvent.moe.edu.sg",
+        "LATITUDE": 1.3064427,
+        "LONGITUDE": 103.9171444,
+        "POSTAL_CODE": "449150",
+        "ROAD_NAME": "MARINE TERRACE",
+        "SCHOOLNAME": "CHIJ KATONG CONVENT"
+    },
+    {
+        "HSE_BLK_NUM": 626,
+        "HYPERLINK": "www.chijsec.edu.sg",
+        "LATITUDE": 1.3324608,
+        "LONGITUDE": 103.8432716,
+        "POSTAL_CODE": "319764",
+        "ROAD_NAME": "LORONG 1 TOA PAYOH",
+        "SCHOOLNAME": "CHIJ SECONDARY (TOA PAYOH)"
+    },
+    {
+        "HSE_BLK_NUM": 62,
+        "HYPERLINK": "www.chijstjosephsconvent.moe.edu.sg",
+        "LATITUDE": 1.3917522,
+        "LONGITUDE": 103.902465,
+        "POSTAL_CODE": "548595",
+        "ROAD_NAME": "SENGKANG EAST WAY",
+        "SCHOOLNAME": "CHIJ ST. JOSEPH'S CONVENT"
+    },
+    {
+        "HSE_BLK_NUM": 501,
+        "HYPERLINK": "www.chijstnicholasgirls.moe.edu.sg",
+        "LATITUDE": 1.3734769,
+        "LONGITUDE": 103.8342533,
+        "POSTAL_CODE": "569405",
+        "ROAD_NAME": "ANG MO KIO STREET 13",
+        "SCHOOLNAME": "CHIJ ST. NICHOLAS GIRLS' SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 160,
+        "HYPERLINK": "www.chijsttheresasconvent.moe.edu.sg",
+        "LATITUDE": 1.2753518,
+        "LONGITUDE": 103.8224407,
+        "POSTAL_CODE": "099138",
+        "ROAD_NAME": "LOWER DELTA ROAD",
+        "SCHOOLNAME": "CHIJ ST. THERESA'S CONVENT"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "www.christchurchsec.moe.edu.sg",
+        "LATITUDE": 1.4265678,
+        "LONGITUDE": 103.7934511,
+        "POSTAL_CODE": "737924",
+        "ROAD_NAME": "WOODLANDS DRIVE 17",
+        "SCHOOLNAME": "CHRIST CHURCH SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 31,
+        "HYPERLINK": "www.chuachukangsec.moe.edu.sg",
+        "LATITUDE": 1.3833342,
+        "LONGITUDE": 103.7551033,
+        "POSTAL_CODE": "688848",
+        "ROAD_NAME": "TECK WHYE CRESCENT",
+        "SCHOOLNAME": "CHUA CHU KANG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 50,
+        "HYPERLINK": "www.chungchenghighmain.moe.edu.sg",
+        "LATITUDE": 1.3050915,
+        "LONGITUDE": 103.8916532,
+        "POSTAL_CODE": "439012",
+        "ROAD_NAME": "GOODMAN ROAD",
+        "SCHOOLNAME": "CHUNG CHENG HIGH SCHOOL (MAIN)"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.chungchenghighyishun.moe.edu.sg",
+        "LATITUDE": 1.419226,
+        "LONGITUDE": 103.8373908,
+        "POSTAL_CODE": "768547",
+        "ROAD_NAME": "YISHUN STREET 61",
+        "SCHOOLNAME": "CHUNG CHENG HIGH SCHOOL (YISHUN)"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.clementitownsec.moe.edu.sg",
+        "LATITUDE": 1.3155391,
+        "LONGITUDE": 103.7620206,
+        "POSTAL_CODE": "129904",
+        "ROAD_NAME": "CLEMENTI AVENUE 3",
+        "SCHOOLNAME": "CLEMENTI TOWN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 698,
+        "HYPERLINK": "www.commonwealthsec.moe.edu.sg",
+        "LATITUDE": 1.319204,
+        "LONGITUDE": 103.7456374,
+        "POSTAL_CODE": "608784",
+        "ROAD_NAME": "WEST COAST ROAD",
+        "SCHOOLNAME": "COMMONWEALTH SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 51,
+        "HYPERLINK": "www.compassvalesec.moe.edu.sg",
+        "LATITUDE": 1.3961408,
+        "LONGITUDE": 103.8998472,
+        "POSTAL_CODE": "545083",
+        "ROAD_NAME": "COMPASSVALE CRESCENT",
+        "SCHOOLNAME": "COMPASSVALE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 357,
+        "HYPERLINK": "www.crescent.edu.sg",
+        "LATITUDE": 1.2933195,
+        "LONGITUDE": 103.8175445,
+        "POSTAL_CODE": "247961",
+        "ROAD_NAME": "TANGLIN ROAD",
+        "SCHOOLNAME": "CRESCENT GIRLS' SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 561,
+        "HYPERLINK": "www.crestsec.edu.sg",
+        "LATITUDE": 1.3431198,
+        "LONGITUDE": 103.7426281,
+        "MOREINFO": "Crest Secondary School (CSS) admits students who are eligible for Posting Group 1. Students are strongly encouraged to visit the school to better understand the subjects offered and the progression pathways. Apply directly at CSS or indicate the school as one of the school choices during S1 posting process.",
+        "POSTAL_CODE": "609561",
+        "ROAD_NAME": "JURONG EAST STREET 24",
+        "SCHOOLNAME": "CREST SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 4800,
+        "HYPERLINK": "www.damaisec.moe.edu.sg",
+        "LATITUDE": 1.336928,
+        "LONGITUDE": 103.9270917,
+        "POSTAL_CODE": "479229",
+        "ROAD_NAME": "BEDOK RESERVOIR ROAD",
+        "SCHOOLNAME": "DAMAI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.deyisec.moe.edu.sg",
+        "LATITUDE": 1.365997,
+        "LONGITUDE": 103.8525458,
+        "POSTAL_CODE": "569277",
+        "ROAD_NAME": "ANG MO KIO STREET 42",
+        "SCHOOLNAME": "DEYI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "www.dunearnsec.moe.edu.sg",
+        "LATITUDE": 1.363579,
+        "LONGITUDE": 103.7447211,
+        "POSTAL_CODE": "659204",
+        "ROAD_NAME": "BUKIT BATOK WEST AVENUE 2",
+        "SCHOOLNAME": "DUNEARN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.dunmanhigh.moe.edu.sg",
+        "LATITUDE": 1.2999622,
+        "LONGITUDE": 103.8829416,
+        "POSTAL_CODE": "436895",
+        "ROAD_NAME": "TANJONG RHU ROAD",
+        "SCHOOLNAME": "DUNMAN HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "www.dunmansec.moe.edu.sg",
+        "LATITUDE": 1.3606526,
+        "LONGITUDE": 103.9562139,
+        "POSTAL_CODE": "529093",
+        "ROAD_NAME": "TAMPINES STREET 45",
+        "SCHOOLNAME": "DUNMAN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 30,
+        "HYPERLINK": "www.eastspringsec.moe.edu.sg",
+        "LATITUDE": 1.3562251,
+        "LONGITUDE": 103.9606407,
+        "POSTAL_CODE": "529231",
+        "ROAD_NAME": "TAMPINES STREET 34",
+        "SCHOOLNAME": "EAST SPRING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 36,
+        "HYPERLINK": "www.edgefieldsec.moe.edu.sg",
+        "LATITUDE": 1.4005931,
+        "LONGITUDE": 103.9026874,
+        "POSTAL_CODE": "828814",
+        "ROAD_NAME": "PUNGGOL FIELD",
+        "SCHOOLNAME": "EDGEFIELD SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.evergreensec.moe.edu.sg",
+        "LATITUDE": 1.4414913,
+        "LONGITUDE": 103.7941378,
+        "POSTAL_CODE": "738489",
+        "ROAD_NAME": "WOODLANDS STREET 83",
+        "SCHOOLNAME": "EVERGREEN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 102,
+        "HYPERLINK": "http://fairfieldmethodistsec.moe.edu.sg/",
+        "LATITUDE": 1.3016337,
+        "LONGITUDE": 103.7840996,
+        "POSTAL_CODE": "139649",
+        "ROAD_NAME": "DOVER ROAD",
+        "SCHOOLNAME": "FAIRFIELD METHODIST SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 5,
+        "HYPERLINK": "www.fuhuasec.moe.edu.sg",
+        "LATITUDE": 1.3470141,
+        "LONGITUDE": 103.7265209,
+        "POSTAL_CODE": "649410",
+        "ROAD_NAME": "JURONG WEST STREET 41",
+        "SCHOOLNAME": "FUHUA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.ganengsengsch.moe.edu.sg",
+        "LATITUDE": 1.2890711,
+        "LONGITUDE": 103.8237337,
+        "POSTAL_CODE": "159561",
+        "ROAD_NAME": "HENDERSON ROAD",
+        "SCHOOLNAME": "GAN ENG SENG SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.geylangmethodistsec.moe.edu.sg",
+        "LATITUDE": 1.317649,
+        "LONGITUDE": 103.8826611,
+        "POSTAL_CODE": "389705",
+        "ROAD_NAME": "GEYLANG EAST CENTRAL",
+        "SCHOOLNAME": "GEYLANG METHODIST SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 51,
+        "HYPERLINK": "www.greendalesec.moe.edu.sg",
+        "LATITUDE": 1.3969602,
+        "LONGITUDE": 103.9117001,
+        "POSTAL_CODE": "828866",
+        "ROAD_NAME": "EDGEDALE PLAINS",
+        "SCHOOLNAME": "GREENDALE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 32,
+        "HYPERLINK": "www.greenridgesec.moe.edu.sg",
+        "LATITUDE": 1.3818643,
+        "LONGITUDE": 103.7738285,
+        "POSTAL_CODE": "679938",
+        "ROAD_NAME": "BUKIT PANJANG RING ROAD",
+        "SCHOOLNAME": "GREENRIDGE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 8,
+        "HYPERLINK": "www.guangyangsec.moe.edu.sg",
+        "LATITUDE": 1.3444086,
+        "LONGITUDE": 103.8502089,
+        "POSTAL_CODE": "579807",
+        "ROAD_NAME": "BISHAN STREET 12",
+        "SCHOOLNAME": "GUANGYANG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 9,
+        "HYPERLINK": "www.haisingcatholic.moe.edu.sg",
+        "LATITUDE": 1.3743372,
+        "LONGITUDE": 103.9545445,
+        "MOREINFO": "",
+        "POSTAL_CODE": "519421",
+        "ROAD_NAME": "PASIR RIS DRIVE 6",
+        "SCHOOLNAME": "HAI SING CATHOLIC SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.hillgrovesec.moe.edu.sg",
+        "LATITUDE": 1.3527358,
+        "LONGITUDE": 103.7529865,
+        "POSTAL_CODE": "659250",
+        "ROAD_NAME": "BUKIT BATOK STREET 52",
+        "SCHOOLNAME": "HILLGROVE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1191,
+        "HYPERLINK": "www.holyinnocentshigh.moe.edu.sg",
+        "LATITUDE": 1.3715451,
+        "LONGITUDE": 103.8963988,
+        "POSTAL_CODE": "534786",
+        "ROAD_NAME": "UPPER SERANGOON ROAD",
+        "SCHOOLNAME": "HOLY INNOCENTS' HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.hougangsec.moe.edu.sg",
+        "LATITUDE": 1.3776402,
+        "LONGITUDE": 103.882534,
+        "POSTAL_CODE": "534256",
+        "ROAD_NAME": "HOUGANG STREET 93",
+        "SCHOOLNAME": "HOUGANG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 60,
+        "HYPERLINK": "www.huayisec.moe.edu.sg",
+        "LATITUDE": 1.3523437,
+        "LONGITUDE": 103.7218323,
+        "POSTAL_CODE": "649371",
+        "ROAD_NAME": "JURONG WEST STREET 42",
+        "SCHOOLNAME": "HUA YI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 661,
+        "HYPERLINK": "www.hwachong.edu.sg",
+        "LATITUDE": 1.3263581,
+        "LONGITUDE": 103.8032904,
+        "POSTAL_CODE": "269734",
+        "ROAD_NAME": "BUKIT TIMAH ROAD",
+        "SCHOOLNAME": "HWA CHONG INSTITUTION"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.junyuansec.moe.edu.sg",
+        "LATITUDE": 1.3536132,
+        "LONGITUDE": 103.9338862,
+        "POSTAL_CODE": "528933",
+        "ROAD_NAME": "TAMPINES STREET 84",
+        "SCHOOLNAME": "JUNYUAN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 31,
+        "HYPERLINK": "www.jurongsec.moe.edu.sg",
+        "LATITUDE": 1.3300203,
+        "LONGITUDE": 103.723953,
+        "POSTAL_CODE": "618652",
+        "ROAD_NAME": "YUAN CHING ROAD",
+        "SCHOOLNAME": "JURONG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 61,
+        "HYPERLINK": "www.jurongwestsec.moe.edu.sg",
+        "LATITUDE": 1.3352563,
+        "LONGITUDE": 103.7020989,
+        "POSTAL_CODE": "648348",
+        "ROAD_NAME": "JURONG WEST STREET 65",
+        "SCHOOLNAME": "JURONG WEST SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 202,
+        "HYPERLINK": "www.jurongvillesec.moe.edu.sg",
+        "LATITUDE": 1.3512886,
+        "LONGITUDE": 103.7289077,
+        "POSTAL_CODE": "609790",
+        "ROAD_NAME": "JURONG EAST AVENUE 1",
+        "SCHOOLNAME": "JURONGVILLE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 33,
+        "HYPERLINK": "www.juyingsec.moe.edu.sg",
+        "LATITUDE": 1.3387228,
+        "LONGITUDE": 103.6873103,
+        "POSTAL_CODE": "649038",
+        "ROAD_NAME": "JURONG WEST STREET 91",
+        "SCHOOLNAME": "JUYING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 147,
+        "HYPERLINK": "www.kentridgesec.moe.edu.sg",
+        "LATITUDE": 1.3012277,
+        "LONGITUDE": 103.7648896,
+        "POSTAL_CODE": "127368",
+        "ROAD_NAME": "WEST COAST ROAD",
+        "SCHOOLNAME": "KENT RIDGE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 61,
+        "HYPERLINK": "www.kranjisec.moe.edu.sg",
+        "LATITUDE": 1.3900511,
+        "LONGITUDE": 103.7411907,
+        "POSTAL_CODE": "689333",
+        "ROAD_NAME": "CHOA CHU KANG STREET 51",
+        "SCHOOLNAME": "KRANJI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.kuochuanpresbyteriansec.moe.edu.sg",
+        "LATITUDE": 1.3501713,
+        "LONGITUDE": 103.8549837,
+        "POSTAL_CODE": "579795",
+        "ROAD_NAME": "BISHAN STREET 13",
+        "SCHOOLNAME": "KUO CHUAN PRESBYTERIAN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 12,
+        "HYPERLINK": "www.loyangviewsec.moe.edu.sg",
+        "LATITUDE": 1.3665842,
+        "LONGITUDE": 103.9569446,
+        "POSTAL_CODE": "519073",
+        "ROAD_NAME": "PASIR RIS STREET 11",
+        "SCHOOLNAME": "LOYANG VIEW SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "www.manjusrisec.moe.edu.sg",
+        "LATITUDE": 1.3274712,
+        "LONGITUDE": 103.90172,
+        "POSTAL_CODE": "408940",
+        "ROAD_NAME": "UBI AVENUE 1",
+        "SCHOOLNAME": "MANJUSRI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 25,
+        "HYPERLINK": "www.marisstellahigh.moe.edu.sg",
+        "LATITUDE": 1.3413918,
+        "LONGITUDE": 103.8777407,
+        "MOREINFO": "Maris Stella High School (Secondary) will operate from the former Bedok North Secondary School site at 20 Jalan Damai, Singapore 419612 from January 2027 and will relocate back to the rebuilt Maris Stella High School (Secondary) site tentatively in 2029.",
+        "POSTAL_CODE": "368051",
+        "ROAD_NAME": "MOUNT VERNON ROAD",
+        "SCHOOLNAME": "MARIS STELLA HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 12,
+        "HYPERLINK": "www.marsilingsec.moe.edu.sg",
+        "LATITUDE": 1.4366442,
+        "LONGITUDE": 103.7760081,
+        "POSTAL_CODE": "739110",
+        "ROAD_NAME": "MARSILING ROAD",
+        "SCHOOLNAME": "MARSILING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.mayflowersec.moe.edu.sg",
+        "LATITUDE": 1.3682727,
+        "LONGITUDE": 103.8353607,
+        "POSTAL_CODE": "569384",
+        "ROAD_NAME": "ANG MO KIO STREET 21",
+        "SCHOOLNAME": "MAYFLOWER SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 31,
+        "HYPERLINK": "www.meridiansec.moe.edu.sg",
+        "LATITUDE": 1.3672468,
+        "LONGITUDE": 103.9489725,
+        "POSTAL_CODE": "518901",
+        "ROAD_NAME": "PASIR RIS STREET 51",
+        "SCHOOLNAME": "MERIDIAN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.mgs.moe.edu.sg",
+        "LATITUDE": 1.3326621,
+        "LONGITUDE": 103.7833821,
+        "POSTAL_CODE": "599986",
+        "ROAD_NAME": "BLACKMORE DRIVE",
+        "SCHOOLNAME": "METHODIST GIRLS' SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 50,
+        "HYPERLINK": "www.montfortsec.moe.edu.sg",
+        "LATITUDE": 1.3739613,
+        "LONGITUDE": 103.8889284,
+        "POSTAL_CODE": "538785",
+        "ROAD_NAME": "HOUGANG AVENUE 8",
+        "SCHOOLNAME": "MONTFORT SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "www.nchs.edu.sg",
+        "LATITUDE": 1.3887958,
+        "LONGITUDE": 103.8900044,
+        "POSTAL_CODE": "545079",
+        "ROAD_NAME": "ANCHORVALE LINK",
+        "SCHOOLNAME": "NAN CHIAU HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 41,
+        "HYPERLINK": "www.nanhuahigh.moe.edu.sg",
+        "LATITUDE": 1.3080953,
+        "LONGITUDE": 103.7685614,
+        "POSTAL_CODE": "129956",
+        "ROAD_NAME": "CLEMENTI AVENUE 1",
+        "SCHOOLNAME": "NAN HUA HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "https://www.nygh.edu.sg/",
+        "LATITUDE": 1.3305833,
+        "LONGITUDE": 103.802421,
+        "POSTAL_CODE": "288683",
+        "ROAD_NAME": "LINDEN DRIVE",
+        "SCHOOLNAME": "NANYANG GIRLS' HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 37,
+        "HYPERLINK": "www.nationaljc.moe.edu.sg",
+        "LATITUDE": 1.3302929,
+        "LONGITUDE": 103.8041109,
+        "POSTAL_CODE": "288913",
+        "ROAD_NAME": "HILLCREST ROAD",
+        "SCHOOLNAME": "NATIONAL JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 901,
+        "HYPERLINK": "www.navalbasesec.moe.edu.sg",
+        "LATITUDE": 1.4193788,
+        "LONGITUDE": 103.8310504,
+        "POSTAL_CODE": "768689",
+        "ROAD_NAME": "YISHUN RING ROAD",
+        "SCHOOLNAME": "NAVAL BASE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1020,
+        "HYPERLINK": "www.newtownsec.moe.edu.sg",
+        "LATITUDE": 1.3097759,
+        "LONGITUDE": 103.7731886,
+        "POSTAL_CODE": "139657",
+        "ROAD_NAME": "DOVER ROAD",
+        "SCHOOLNAME": "NEW TOWN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.ngeeannsec.moe.edu.sg",
+        "LATITUDE": 1.3544753,
+        "LONGITUDE": 103.9567473,
+        "POSTAL_CODE": "529283",
+        "ROAD_NAME": "TAMPINES STREET 32",
+        "SCHOOLNAME": "NGEE ANN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.northvistasec.moe.edu.sg",
+        "LATITUDE": 1.3811313,
+        "LONGITUDE": 103.8991888,
+        "POSTAL_CODE": "545081",
+        "ROAD_NAME": "RIVERVALE LINK",
+        "SCHOOLNAME": "NORTH VISTA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 585,
+        "HYPERLINK": "www.northbrookssec.moe.edu.sg",
+        "LATITUDE": 1.4208129,
+        "LONGITUDE": 103.8451473,
+        "POSTAL_CODE": "768692",
+        "ROAD_NAME": "YISHUN RING ROAD",
+        "SCHOOLNAME": "NORTHBROOKS SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 3,
+        "HYPERLINK": "www.northlandsec.moe.edu.sg",
+        "LATITUDE": 1.4358018,
+        "LONGITUDE": 103.8401047,
+        "POSTAL_CODE": "768578",
+        "ROAD_NAME": "YISHUN STREET 22",
+        "SCHOOLNAME": "NORTHLAND SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 151,
+        "HYPERLINK": "www.nls.edu.sg",
+        "LATITUDE": 1.3191002,
+        "LONGITUDE": 103.8557596,
+        "MOREINFO": "The school does not participate in the S1 posting process. Interested students should apply directly to the school. Refer to their website for admission information.",
+        "POSTAL_CODE": "327830",
+        "ROAD_NAME": "TOWNER ROAD",
+        "SCHOOLNAME": "NORTHLIGHT SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "www.nushigh.edu.sg",
+        "LATITUDE": 1.3060068,
+        "LONGITUDE": 103.7701528,
+        "MOREINFO": "The school does not participate in the S1 posting process. Interested students should apply through Direct School Admission for secondary schools (DSA-Sec). Refer to their website for admission information.",
+        "POSTAL_CODE": "129957",
+        "ROAD_NAME": "CLEMENTI AVENUE 1",
+        "SCHOOLNAME": "NUS HIGH SCHOOL OF MATHEMATICS AND SCIENCE"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.orchidparksec.moe.edu.sg",
+        "LATITUDE": 1.4153203,
+        "LONGITUDE": 103.8378592,
+        "POSTAL_CODE": "768454",
+        "ROAD_NAME": "YISHUN STREET 81",
+        "SCHOOLNAME": "ORCHID PARK SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 48,
+        "HYPERLINK": "www.outramsec.moe.edu.sg",
+        "LATITUDE": 1.3977502,
+        "LONGITUDE": 103.8912304,
+        "MOREINFO": "The school will be relocating to its new site at 48 Anchorvale Crescent Singapore 549936 and admitting its first intake of Secondary 1 students there in 2026. The current students will continue to study at the campus at 3 York Hill, Singapore 168622, until they graduate in 2027.",
+        "POSTAL_CODE": "549936",
+        "ROAD_NAME": "ANCHORVALE CRESCENT",
+        "SCHOOLNAME": "OUTRAM SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.prcss.moe.edu.sg",
+        "LATITUDE": 1.3728406,
+        "LONGITUDE": 103.9597282,
+        "POSTAL_CODE": "518934",
+        "ROAD_NAME": "PASIR RIS STREET 41",
+        "SCHOOLNAME": "PASIR RIS CREST SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 390,
+        "HYPERLINK": "www.pasirrissec.moe.edu.sg",
+        "LATITUDE": 1.3542273,
+        "LONGITUDE": 103.9489626,
+        "POSTAL_CODE": "529400",
+        "ROAD_NAME": "TAMPINES STREET 21",
+        "SCHOOLNAME": "PASIR RIS SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 296,
+        "HYPERLINK": "www.plmgss.moe.edu.sg",
+        "LATITUDE": 1.3509676,
+        "LONGITUDE": 103.8851201,
+        "POSTAL_CODE": "536742",
+        "ROAD_NAME": "LOR AH SOO",
+        "SCHOOLNAME": "PAYA LEBAR METHODIST GIRLS' SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "www.peihwasec.moe.edu.sg",
+        "LATITUDE": 1.390375,
+        "LONGITUDE": 103.8784617,
+        "POSTAL_CODE": "797702",
+        "ROAD_NAME": "FERNVALE LINK",
+        "SCHOOLNAME": "PEI HWA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.peicaisec.moe.edu.sg",
+        "LATITUDE": 1.3595158,
+        "LONGITUDE": 103.8700107,
+        "POSTAL_CODE": "556094",
+        "ROAD_NAME": "SERANGOON AVENUE 4",
+        "SCHOOLNAME": "PEICAI SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.peircesec.moe.edu.sg",
+        "LATITUDE": 1.3666594,
+        "LONGITUDE": 103.8302161,
+        "POSTAL_CODE": "575566",
+        "ROAD_NAME": "SIN MING WALK",
+        "SCHOOLNAME": "PEIRCE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 5209,
+        "HYPERLINK": "www.presbyterian.moe.edu.sg",
+        "LATITUDE": 1.3817544,
+        "LONGITUDE": 103.842383,
+        "POSTAL_CODE": "569845",
+        "ROAD_NAME": "ANG MO KIO AVENUE 6",
+        "SCHOOLNAME": "PRESBYTERIAN HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 51,
+        "HYPERLINK": "www.punggolsec.moe.edu.sg",
+        "LATITUDE": 1.4020574,
+        "LONGITUDE": 103.9092137,
+        "POSTAL_CODE": "828870",
+        "ROAD_NAME": "EDGEFIELD PLAINS",
+        "SCHOOLNAME": "PUNGGOL SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.queenstownsec.moe.edu.sg",
+        "LATITUDE": 1.2935213,
+        "LONGITUDE": 103.813191,
+        "POSTAL_CODE": "148800",
+        "ROAD_NAME": "STRATHMORE ROAD",
+        "SCHOOLNAME": "QUEENSTOWN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": "2A",
+        "HYPERLINK": "www.queenswaysec.moe.edu.sg",
+        "LATITUDE": 1.3002227,
+        "LONGITUDE": 103.8022073,
+        "POSTAL_CODE": "149295",
+        "ROAD_NAME": "MARGARET DRIVE",
+        "SCHOOLNAME": "QUEENSWAY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.rgs.edu.sg",
+        "LATITUDE": 1.3421748,
+        "LONGITUDE": 103.843134,
+        "POSTAL_CODE": "318871",
+        "ROAD_NAME": "BRADDELL RISE",
+        "SCHOOLNAME": "RAFFLES GIRLS' SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.ri.edu.sg",
+        "LATITUDE": 1.3462905,
+        "LONGITUDE": 103.8436202,
+        "POSTAL_CODE": "575954",
+        "ROAD_NAME": "RAFFLES INSTITUTION LANE",
+        "SCHOOLNAME": "RAFFLES INSTITUTION"
+    },
+    {
+        "HSE_BLK_NUM": 50,
+        "HYPERLINK": "www.regentsec.moe.edu.sg",
+        "LATITUDE": 1.3932791,
+        "LONGITUDE": 103.7510344,
+        "POSTAL_CODE": "689621",
+        "ROAD_NAME": "CHOA CHU KANG NORTH 5",
+        "SCHOOLNAME": "REGENT SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 6,
+        "HYPERLINK": "www.rvhs.moe.edu.sg",
+        "LATITUDE": 1.3445958,
+        "LONGITUDE": 103.7081907,
+        "POSTAL_CODE": "649961",
+        "ROAD_NAME": "BOON LAY AVENUE",
+        "SCHOOLNAME": "RIVER VALLEY HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 3,
+        "HYPERLINK": "www.riversidesec.moe.edu.sg",
+        "LATITUDE": 1.4411016,
+        "LONGITUDE": 103.7883082,
+        "POSTAL_CODE": "738524",
+        "ROAD_NAME": "WOODLANDS STREET 81",
+        "SCHOOLNAME": "RIVERSIDE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.sst.edu.sg",
+        "LATITUDE": 1.3129281,
+        "LONGITUDE": 103.7740115,
+        "MOREINFO": "The school does not participate in the S1 posting process. Interested students should apply through Direct School Admission for secondary schools (DSA-Sec). Refer to their website for admission information.",
+        "POSTAL_CODE": "138572",
+        "ROAD_NAME": "TECHNOLOGY DRIVE",
+        "SCHOOLNAME": "SCHOOL OF SCIENCE AND TECHNOLOGY, SINGAPORE"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.sota.edu.sg",
+        "LATITUDE": 1.2993648,
+        "LONGITUDE": 103.8486874,
+        "MOREINFO": "The school does not participate in the S1 posting process. Interested students should apply through Direct School Admission for secondary schools (DSA-Sec). Refer to their website for admission information.",
+        "POSTAL_CODE": "227968",
+        "ROAD_NAME": "ZUBIR SAID DRIVE",
+        "SCHOOLNAME": "SCHOOL OF THE ARTS, SINGAPORE"
+    },
+    {
+        "HSE_BLK_NUM": 30,
+        "HYPERLINK": "www.sembawangsec.moe.edu.sg",
+        "LATITUDE": 1.445315,
+        "LONGITUDE": 103.8168433,
+        "POSTAL_CODE": "757704",
+        "ROAD_NAME": "SEMBAWANG CRESCENT",
+        "SCHOOLNAME": "SEMBAWANG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "www.sengkangsec.moe.edu.sg",
+        "LATITUDE": 1.3865968,
+        "LONGITUDE": 103.898365,
+        "POSTAL_CODE": "545090",
+        "ROAD_NAME": "COMPASSVALE LANE",
+        "SCHOOLNAME": "SENG KANG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "www.sgs.edu.sg",
+        "LATITUDE": 1.3693257,
+        "LONGITUDE": 103.8692703,
+        "POSTAL_CODE": "555889",
+        "ROAD_NAME": "SERANGOON NORTH AVENUE 1",
+        "SCHOOLNAME": "SERANGOON GARDEN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.serangoonsec.moe.edu.sg",
+        "LATITUDE": 1.3746554,
+        "LONGITUDE": 103.9021387,
+        "POSTAL_CODE": "534237",
+        "ROAD_NAME": "UPPER SERANGOON VIEW",
+        "SCHOOLNAME": "SERANGOON SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 190,
+        "HYPERLINK": "www.scgs.moe.edu.sg",
+        "LATITUDE": 1.3206341,
+        "LONGITUDE": 103.828165,
+        "POSTAL_CODE": "309437",
+        "ROAD_NAME": "DUNEARN ROAD",
+        "SCHOOLNAME": "SINGAPORE CHINESE GIRLS' SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.sportsschool.edu.sg",
+        "LATITUDE": 1.4264114,
+        "LONGITUDE": 103.7894448,
+        "MOREINFO": "The school does not participate in the DSA-Sec or S1 posting process. Students are admitted through its school-based admission process. Interested students should apply directly to the school. Refer to their website for admission information.",
+        "POSTAL_CODE": "737913",
+        "ROAD_NAME": "CHAMPIONS WAY",
+        "SCHOOLNAME": "SINGAPORE SPORTS SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "www.spectra.edu.sg",
+        "LATITUDE": 1.4370375,
+        "LONGITUDE": 103.8041005,
+        "MOREINFO": "Spectra Secondary School (SSS) admits students who are eligible for Posting Group 1. Students are strongly encouraged to visit the school to better understand the subjects offered and the progression pathways. Apply directly at SSS or indicate the school as one of the school choices during S1 posting process.",
+        "POSTAL_CODE": "737758",
+        "ROAD_NAME": "WOODLANDS DRIVE 64",
+        "SCHOOLNAME": "SPECTRA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 30,
+        "HYPERLINK": "www.springfieldsec.moe.edu.sg",
+        "LATITUDE": 1.349573,
+        "LONGITUDE": 103.9303545,
+        "POSTAL_CODE": "529593",
+        "ROAD_NAME": "TAMPINES AVENUE 8",
+        "SCHOOLNAME": "SPRINGFIELD SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 15,
+        "HYPERLINK": "www.standrewssec.moe.edu.sg",
+        "LATITUDE": 1.3306936,
+        "LONGITUDE": 103.8662491,
+        "POSTAL_CODE": "359342",
+        "ROAD_NAME": "FRANCIS THOMAS DRIVE",
+        "SCHOOLNAME": "ST ANDREW'S SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 1600,
+        "HYPERLINK": "www.stanthonyscanossiansec.moe.edu.sg",
+        "LATITUDE": 1.3346631,
+        "LONGITUDE": 103.9419772,
+        "POSTAL_CODE": "469700",
+        "ROAD_NAME": "BEDOK NORTH AVENUE 4",
+        "SCHOOLNAME": "ST. ANTHONY'S CANOSSIAN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 24,
+        "HYPERLINK": "www.stgabrielssec.moe.edu.sg",
+        "LATITUDE": 1.346488,
+        "LONGITUDE": 103.8760942,
+        "POSTAL_CODE": "556140",
+        "ROAD_NAME": "SERANGOON AVENUE 1",
+        "SCHOOLNAME": "ST. GABRIEL'S SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.sthildassec.moe.edu.sg",
+        "LATITUDE": 1.3497392,
+        "LONGITUDE": 103.937608,
+        "POSTAL_CODE": "528986",
+        "ROAD_NAME": "TAMPINES STREET 82",
+        "SCHOOLNAME": "ST. HILDA'S SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 38,
+        "HYPERLINK": "www.sji.edu.sg",
+        "LATITUDE": 1.3236531,
+        "LONGITUDE": 103.828499,
+        "POSTAL_CODE": "308274",
+        "ROAD_NAME": "MALCOLM ROAD",
+        "SCHOOLNAME": "ST. JOSEPH'S INSTITUTION"
+    },
+    {
+        "HSE_BLK_NUM": 111,
+        "HYPERLINK": "www.stmargaretssec.moe.edu.sg",
+        "LATITUDE": 1.3197746,
+        "LONGITUDE": 103.8096022,
+        "POSTAL_CODE": "259240",
+        "ROAD_NAME": "FARRER ROAD",
+        "SCHOOLNAME": "ST. MARGARET'S SCHOOL (SECONDARY)"
+    },
+    {
+        "HSE_BLK_NUM": 490,
+        "HYPERLINK": "www.stpatricks.moe.edu.sg",
+        "LATITUDE": 1.3078834,
+        "LONGITUDE": 103.9176382,
+        "POSTAL_CODE": "429058",
+        "ROAD_NAME": "EAST COAST ROAD",
+        "SCHOOLNAME": "ST. PATRICK'S SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 3,
+        "HYPERLINK": "www.swisscottagesec.moe.edu.sg",
+        "LATITUDE": 1.3647174,
+        "LONGITUDE": 103.7503961,
+        "POSTAL_CODE": "659322",
+        "ROAD_NAME": "BUKIT BATOK STREET 34",
+        "SCHOOLNAME": "SWISS COTTAGE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 252,
+        "HYPERLINK": "www.tampinessec.moe.edu.sg",
+        "LATITUDE": 1.3492609,
+        "LONGITUDE": 103.9442637,
+        "POSTAL_CODE": "529427",
+        "ROAD_NAME": "TAMPINES STREET 12",
+        "SCHOOLNAME": "TAMPINES SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "www.tkgs.moe.edu.sg",
+        "LATITUDE": 1.3075626,
+        "LONGITUDE": 103.8961072,
+        "POSTAL_CODE": "439272",
+        "ROAD_NAME": "DUNMAN LANE",
+        "SCHOOLNAME": "TANJONG KATONG GIRLS' SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 130,
+        "HYPERLINK": "www.tanjongkatongsec.moe.edu.sg",
+        "LATITUDE": 1.3087352,
+        "LONGITUDE": 103.8972252,
+        "POSTAL_CODE": "438796",
+        "ROAD_NAME": "HAIG ROAD",
+        "SCHOOLNAME": "TANJONG KATONG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.temasekjc.moe.edu.sg",
+        "LATITUDE": 1.3572802,
+        "LONGITUDE": 103.9561859,
+        "MOREINFO": "The school is currently located at a temporary site, 2 Tampines Avenue 9, Singapore 529564, due to upgrading. It will move back to its permanent location at 22 Bedok South Road, Singapore 469278, in December 2027. ",
+        "POSTAL_CODE": "529564",
+        "ROAD_NAME": "TAMPINES AVENUE 9",
+        "SCHOOLNAME": "TEMASEK JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 600,
+        "HYPERLINK": "www.temaseksec.moe.edu.sg",
+        "LATITUDE": 1.3159167,
+        "LONGITUDE": 103.9475641,
+        "POSTAL_CODE": "465561",
+        "ROAD_NAME": "UPPER EAST COAST ROAD",
+        "SCHOOLNAME": "TEMASEK SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "www.unitysec.moe.edu.sg",
+        "LATITUDE": 1.4000152,
+        "LONGITUDE": 103.7460209,
+        "POSTAL_CODE": "689143",
+        "ROAD_NAME": "CHOA CHU KANG STREET 62",
+        "SCHOOLNAME": "UNITY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "www.victoria.moe.edu.sg",
+        "LATITUDE": 1.308713,
+        "LONGITUDE": 103.927981,
+        "POSTAL_CODE": "448880",
+        "ROAD_NAME": "SIGLAP LINK",
+        "SCHOOLNAME": "VICTORIA SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 61,
+        "HYPERLINK": "www.westspringsec.moe.edu.sg",
+        "LATITUDE": 1.3878228,
+        "LONGITUDE": 103.7601288,
+        "POSTAL_CODE": "677737",
+        "ROAD_NAME": "SENJA  ROAD",
+        "SCHOOLNAME": "WEST SPRING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.westwoodsec.moe.edu.sg",
+        "LATITUDE": 1.353737,
+        "LONGITUDE": 103.7017721,
+        "POSTAL_CODE": "648350",
+        "ROAD_NAME": "JURONG WEST STREET 25",
+        "SCHOOLNAME": "WESTWOOD SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 30,
+        "HYPERLINK": "www.whitleysec.moe.edu.sg",
+        "LATITUDE": 1.3550521,
+        "LONGITUDE": 103.8425524,
+        "POSTAL_CODE": "579747",
+        "ROAD_NAME": "BISHAN STREET 24",
+        "SCHOOLNAME": "WHITLEY SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 3,
+        "HYPERLINK": "www.woodgrovesec.moe.edu.sg",
+        "LATITUDE": 1.4283183,
+        "LONGITUDE": 103.7960476,
+        "POSTAL_CODE": "738990",
+        "ROAD_NAME": "WOODLANDS AVENUE 6",
+        "SCHOOLNAME": "WOODGROVE SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "www.woodlandsringsec.moe.edu.sg",
+        "LATITUDE": 1.4307045,
+        "LONGITUDE": 103.7776257,
+        "MOREINFO": "The school is currently located at a temporary site, 21 Woodlands Avenue 1, Singapore 739062, due to upgrading. It will move back to its permanent location at 10 Woodlands Ring Road, Singapore 738239, tentatively in January 2029.",
+        "POSTAL_CODE": "739062",
+        "ROAD_NAME": "WOODLANDS AVENUE 1",
+        "SCHOOLNAME": "WOODLANDS RING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.woodlandssec.moe.edu.sg",
+        "LATITUDE": 1.4391253,
+        "LONGITUDE": 103.7745864,
+        "POSTAL_CODE": "739111",
+        "ROAD_NAME": "MARSILING ROAD",
+        "SCHOOLNAME": "WOODLANDS SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 11,
+        "HYPERLINK": "www.xinminsec.moe.edu.sg",
+        "LATITUDE": 1.3725588,
+        "LONGITUDE": 103.8830516,
+        "POSTAL_CODE": "538789",
+        "ROAD_NAME": "HOUGANG AVENUE 8",
+        "SCHOOLNAME": "XINMIN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 3063,
+        "HYPERLINK": "www.yiochukangsec.moe.edu.sg",
+        "LATITUDE": 1.377976,
+        "LONGITUDE": 103.842137,
+        "POSTAL_CODE": "569868",
+        "ROAD_NAME": "ANG MO KIO AVENUE 5",
+        "SCHOOLNAME": "YIO CHU KANG SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 4,
+        "HYPERLINK": "www.yishunsec.moe.edu.sg",
+        "LATITUDE": 1.4281332,
+        "LONGITUDE": 103.8287643,
+        "POSTAL_CODE": "768516",
+        "ROAD_NAME": "YISHUN STREET 71",
+        "SCHOOLNAME": "YISHUN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 6,
+        "HYPERLINK": "www.yishuntownsec.moe.edu.sg",
+        "LATITUDE": 1.4323216,
+        "LONGITUDE": 103.8380942,
+        "POSTAL_CODE": "768610",
+        "ROAD_NAME": "YISHUN STREET 21",
+        "SCHOOLNAME": "YISHUN TOWN SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 103,
+        "HYPERLINK": "www.yuanchingsec.moe.edu.sg",
+        "LATITUDE": 1.3420064,
+        "LONGITUDE": 103.7208987,
+        "POSTAL_CODE": "618654",
+        "ROAD_NAME": "YUAN CHING ROAD",
+        "SCHOOLNAME": "YUAN CHING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 35,
+        "HYPERLINK": "www.yuhuasec.moe.edu.sg",
+        "LATITUDE": 1.3471863,
+        "LONGITUDE": 103.7226872,
+        "POSTAL_CODE": "649406",
+        "ROAD_NAME": "JURONG WEST STREET 41",
+        "SCHOOLNAME": "YUHUA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 8,
+        "HYPERLINK": "www.yusofishaksec.moe.edu.sg",
+        "LATITUDE": 1.406937,
+        "LONGITUDE": 103.8962751,
+        "POSTAL_CODE": "828676",
+        "ROAD_NAME": "SUMANG WALK",
+        "SCHOOLNAME": "YUSOF ISHAK SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 47,
+        "HYPERLINK": "www.yuyingsec.moe.edu.sg",
+        "LATITUDE": 1.357136,
+        "LONGITUDE": 103.8901948,
+        "POSTAL_CODE": "538884",
+        "ROAD_NAME": "HOUGANG AVENUE 1",
+        "SCHOOLNAME": "YUYING SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 62,
+        "HYPERLINK": "www.zhenghuasec.moe.edu.sg",
+        "LATITUDE": 1.3883658,
+        "LONGITUDE": 103.7655106,
+        "POSTAL_CODE": "679962",
+        "ROAD_NAME": "BUKIT PANJANG RING ROAD",
+        "SCHOOLNAME": "ZHENGHUA SECONDARY SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 13,
+        "HYPERLINK": "www.zhonghuasec.moe.edu.sg",
+        "LATITUDE": 1.3484072,
+        "LONGITUDE": 103.8694305,
+        "POSTAL_CODE": "556123",
+        "ROAD_NAME": "SERANGOON AVENUE 3",
+        "SCHOOLNAME": "ZHONGHUA SECONDARY SCHOOL"
+    }
+]

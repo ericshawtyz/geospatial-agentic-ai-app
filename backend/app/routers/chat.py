@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 import time
 import uuid
 
@@ -35,7 +36,9 @@ async def chat_websocket(websocket: WebSocket):
                     f"Use this for any 'nearby' or 'closest' queries unless the user specifies a different location.]"
                 )
             if file_context:
-                full_input += f"\n\n[Uploaded file context]\n{json.dumps(file_context, indent=2)}"
+                full_input += (
+                    f"\n\n[Uploaded file context]\n{json.dumps(file_context, indent=2)}"
+                )
 
             logger.info("[%s] >>> User: %s", session_id[:8], user_message[:200])
             t0 = time.perf_counter()
@@ -55,10 +58,12 @@ async def chat_websocket(websocket: WebSocket):
                 elif event["type"] == "tool_call":
                     tool_count += 1
                     if event["status"] == "completed" and event.get("result"):
-                        tool_results.append({
-                            "name": event["name"],
-                            "result": event["result"],
-                        })
+                        tool_results.append(
+                            {
+                                "name": event["name"],
+                                "result": event.get("full_result") or event["result"],
+                            }
+                        )
                     logger.info(
                         "[%s]   tool %s status=%s",
                         session_id[:8],
@@ -66,13 +71,15 @@ async def chat_websocket(websocket: WebSocket):
                         event["status"],
                     )
                     await websocket.send_text(
-                        json.dumps({
-                            "type": "tool_call",
-                            "name": event["name"],
-                            "arguments": event["arguments"],
-                            "status": event["status"],
-                            "result": event["result"],
-                        })
+                        json.dumps(
+                            {
+                                "type": "tool_call",
+                                "name": event["name"],
+                                "arguments": event["arguments"],
+                                "status": event["status"],
+                                "result": event["result"],
+                            }
+                        )
                     )
 
             elapsed = time.perf_counter() - t0
@@ -120,17 +127,13 @@ async def chat_websocket(websocket: WebSocket):
     except Exception as e:
         logger.exception("[%s] Error: %s", session_id[:8], e)
         try:
-            await websocket.send_text(
-                json.dumps({"type": "error", "text": str(e)})
-            )
+            await websocket.send_text(json.dumps({"type": "error", "text": str(e)}))
         except Exception:
             pass
 
 
 def _parse_agent_response(response: str) -> tuple[str, list[dict]]:
     """Extract text content and mapCommands JSON blocks from agent response."""
-    import re
-
     blocks = _find_map_command_blocks(response)
     if not blocks:
         return response, []
@@ -220,7 +223,9 @@ def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
     for tr in tool_results:
         result_str = tr.get("result", "")
         try:
-            result_data = json.loads(result_str) if isinstance(result_str, str) else result_str
+            result_data = (
+                json.loads(result_str) if isinstance(result_str, str) else result_str
+            )
         except (json.JSONDecodeError, TypeError):
             continue
 
@@ -230,9 +235,15 @@ def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
         # Case 1: Tool returned a geojson field (e.g. get_planning_area_boundary)
         geojson = result_data.get("geojson")
         if isinstance(geojson, dict) and geojson.get("type") in (
-            "Polygon", "MultiPolygon", "Point", "MultiPoint",
-            "LineString", "MultiLineString", "GeometryCollection",
-            "Feature", "FeatureCollection",
+            "Polygon",
+            "MultiPolygon",
+            "Point",
+            "MultiPoint",
+            "LineString",
+            "MultiLineString",
+            "GeometryCollection",
+            "Feature",
+            "FeatureCollection",
         ):
             name = result_data.get("name", "")
             # Wrap bare geometry in a FeatureCollection
@@ -241,11 +252,13 @@ def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
             else:
                 fc = {
                     "type": "FeatureCollection",
-                    "features": [{
-                        "type": "Feature",
-                        "properties": {"label": name},
-                        "geometry": geojson,
-                    }],
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {"label": name},
+                            "geometry": geojson,
+                        }
+                    ],
                 }
 
             # Compute centroid from coordinates for setView
@@ -255,18 +268,22 @@ def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
                 commands.append({"action": "clearMap", "data": {}})
 
             if centroid:
-                commands.append({
-                    "action": "setView",
-                    "data": {"lat": centroid[0], "lng": centroid[1], "zoom": 13},
-                })
+                commands.append(
+                    {
+                        "action": "setView",
+                        "data": {"lat": centroid[0], "lng": centroid[1], "zoom": 13},
+                    }
+                )
 
-            commands.append({
-                "action": "addGeoJSON",
-                "data": {
-                    "geojson": fc,
-                    "style": {"color": "#3388ff", "weight": 3, "fillOpacity": 0.6},
-                },
-            })
+            commands.append(
+                {
+                    "action": "addGeoJSON",
+                    "data": {
+                        "geojson": fc,
+                        "style": {"color": "#3388ff", "weight": 3, "fillOpacity": 0.6},
+                    },
+                }
+            )
 
         # Case 2: Tool returned results with lat/lng fields (e.g. search results)
         for key in ("results", "SearchResults", "Result"):
@@ -283,10 +300,20 @@ def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
                         lat_f, lng_f = float(lat), float(lng)
                         if 1.1 <= lat_f <= 1.5 and 103.5 <= lng_f <= 104.1:
                             label = (
-                                item.get("SEARCHVAL") or item.get("BUILDING")
-                                or item.get("ADDRESS") or item.get("name") or ""
+                                item.get("SEARCHVAL")
+                                or item.get("BUILDING")
+                                or item.get("ADDRESS")
+                                or item.get("name")
+                                or ""
                             )
-                            markers.append({"lat": lat_f, "lng": lng_f, "label": label, "popup": label})
+                            markers.append(
+                                {
+                                    "lat": lat_f,
+                                    "lng": lng_f,
+                                    "label": label,
+                                    "popup": label,
+                                }
+                            )
                     except (ValueError, TypeError):
                         pass
 
@@ -294,10 +321,16 @@ def _extract_fallback_from_tool_results(tool_results: list[dict]) -> list[dict]:
         commands.append({"action": "clearMap", "data": {}})
         avg_lat = sum(m["lat"] for m in markers) / len(markers)
         avg_lng = sum(m["lng"] for m in markers) / len(markers)
-        commands.append({
-            "action": "setView",
-            "data": {"lat": avg_lat, "lng": avg_lng, "zoom": 15 if len(markers) <= 3 else 13},
-        })
+        commands.append(
+            {
+                "action": "setView",
+                "data": {
+                    "lat": avg_lat,
+                    "lng": avg_lng,
+                    "zoom": 15 if len(markers) <= 3 else 13,
+                },
+            }
+        )
         commands.append({"action": "addMarkers", "data": {"markers": markers}})
 
     return commands
@@ -317,12 +350,16 @@ def _geojson_centroid(geojson: dict) -> list[float] | None:
         elif gtype in ("Polygon", "MultiLineString") and raw:
             for ring in raw:
                 if isinstance(ring, list):
-                    coords.extend(r for r in ring if isinstance(r, list) and len(r) >= 2)
+                    coords.extend(
+                        r for r in ring if isinstance(r, list) and len(r) >= 2
+                    )
         elif gtype == "MultiPolygon" and raw:
             for poly in raw:
                 for ring in poly:
                     if isinstance(ring, list):
-                        coords.extend(r for r in ring if isinstance(r, list) and len(r) >= 2)
+                        coords.extend(
+                            r for r in ring if isinstance(r, list) and len(r) >= 2
+                        )
         elif gtype == "Feature":
             geom = obj.get("geometry")
             if isinstance(geom, dict):
@@ -348,27 +385,10 @@ def _extract_fallback_map_commands(text: str) -> list[dict]:
     Scans for patterns like 'latitude=1.3, longitude=103.8' or '(1.3, 103.8)' or
     explicit 'lat.*1.3.*lng.*103.8' and builds addMarkers + setView commands.
     """
-    import re
-
     markers: list[dict] = []
     seen: set[tuple[float, float]] = set()
 
-    # Pattern 1: latitude=X, longitude=Y  /  lat: X, lng: Y  /  Latitude: X, Longitude: Y
-    for m in re.finditer(
-        r"lat(?:itude)?\s*[:=]\s*(-?\d+\.\d+)[,;\s]+lon(?:gitude)?|lng\s*[:=]\s*(-?\d+\.\d+)",
-        text,
-        re.IGNORECASE,
-    ):
-        pass  # handled below with a better pattern
-
-    for m in re.finditer(
-        r"lat(?:itude)?\s*[:=]\s*(-?\d+\.?\d*)\b[^.\d]*?lon(?:g(?:itude)?)?|lng\s*[:=]\s*(-?\d+\.?\d*)",
-        text,
-        re.IGNORECASE,
-    ):
-        pass  # consolidated below
-
-    # Consolidated: capture lat/lng pairs in various formats
+    # Capture lat/lng pairs in various formats
     pair_pattern = re.compile(
         r"lat(?:itude)?\s*[:=]\s*(-?\d+\.\d+)\s*[,;/\s]+\s*(?:lon(?:gitude)?|lng)\s*[:=]\s*(-?\d+\.\d+)",
         re.IGNORECASE,
@@ -380,9 +400,7 @@ def _extract_fallback_map_commands(text: str) -> list[dict]:
             markers.append({"lat": lat, "lng": lng, "label": "", "popup": ""})
 
     # Pattern 2: coordinates like (1.3521, 103.8198) within Singapore bounds
-    coord_pattern = re.compile(
-        r"\(\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*\)"
-    )
+    coord_pattern = re.compile(r"\(\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*\)")
     for m in coord_pattern.finditer(text):
         a, b = float(m.group(1)), float(m.group(2))
         # Determine which is lat vs lng by Singapore bounds
@@ -400,7 +418,9 @@ def _extract_fallback_map_commands(text: str) -> list[dict]:
     avg_lat = sum(m["lat"] for m in markers) / len(markers)
     avg_lng = sum(m["lng"] for m in markers) / len(markers)
     zoom = 15 if len(markers) <= 3 else 13
-    commands.append({"action": "setView", "data": {"lat": avg_lat, "lng": avg_lng, "zoom": zoom}})
+    commands.append(
+        {"action": "setView", "data": {"lat": avg_lat, "lng": avg_lng, "zoom": zoom}}
+    )
     commands.append({"action": "addMarkers", "data": {"markers": markers}})
 
     return commands

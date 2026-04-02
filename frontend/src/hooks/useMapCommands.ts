@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { MapCommand } from '../types/chat';
-import type { MapState, MarkerData, PolygonData, RouteData, GeoJSONData, ViewData } from '../types/map';
+import type { MapState, MarkerData, PolygonData, CircleData, RouteData, GeoJSONData, ViewData } from '../types/map';
 import { DEFAULT_MAP_STATE } from '../types/map';
 
 interface UseMapCommandsReturn {
@@ -72,6 +72,15 @@ export function useMapCommands(): UseMapCommandsReturn {
                 zoom: 14,
               };
             }
+            break;
+          }
+
+          case 'addCircle': {
+            const circleData = cmd.data as unknown as CircleData;
+            next = {
+              ...next,
+              circles: [...next.circles, circleData],
+            };
             break;
           }
 

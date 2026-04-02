@@ -33,6 +33,6 @@ export interface ChatResponse {
 }
 
 export interface MapCommand {
-  action: 'addMarkers' | 'addPolygon' | 'addRoute' | 'addGeoJSON' | 'setView' | 'clearMap';
+  action: 'addMarkers' | 'addPolygon' | 'addRoute' | 'addCircle' | 'addGeoJSON' | 'setView' | 'clearMap';
   data: Record<string, unknown>;
 }

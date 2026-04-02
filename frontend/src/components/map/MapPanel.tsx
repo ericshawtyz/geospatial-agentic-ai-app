@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import type { MapState } from '../../types/map';
 import MapMarkers from './MapMarkers';
 import MapPolygons from './MapPolygons';
+import MapCircles from './MapCircles';
 import MapRoutes from './MapRoutes';
 import MapGeoJSON from './MapGeoJSON';
 
@@ -72,6 +73,7 @@ export default function MapPanel({ mapState }: MapPanelProps) {
       <MapViewController view={mapState.view} />
       <MapMarkers markers={mapState.markers} />
       <MapPolygons polygons={mapState.polygons} />
+      <MapCircles circles={mapState.circles} />
       <MapRoutes routes={mapState.routes} />
       <MapGeoJSON layers={mapState.geojsonLayers} />
     </MapContainer>

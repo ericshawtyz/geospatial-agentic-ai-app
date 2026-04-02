@@ -1,16 +1,11 @@
 import json
 import logging
-import os
 import sys
+import time
 from collections.abc import AsyncIterator
 from pathlib import Path
 
-from agent_framework import (
-    Agent,
-    AgentSession,
-    MCPStdioTool,
-    Message,
-)
+from agent_framework import Agent, AgentSession, MCPStdioTool, Message
 from agent_framework_azure_ai import AzureAIClient
 from azure.identity import DefaultAzureCredential
 
@@ -22,28 +17,36 @@ logger = logging.getLogger("geo_agent")
 _backend_dir = Path(__file__).resolve().parent.parent.parent
 _python_exe = sys.executable
 
+_SESSION_MAX_AGE = 30 * 60  # 30 minutes
+_SESSION_CLEANUP_INTERVAL = 5 * 60  # check every 5 minutes
+
 
 class GeoAgent:
-    """Geospatial AI Agent with OneMap and URA MCP tool connections."""
+    """Geospatial AI Agent with OneMap, URA, and MOE MCP tool connections."""
 
     def __init__(self):
         self._agent: Agent | None = None
         self._onemap_mcp: MCPStdioTool | None = None
         self._ura_mcp: MCPStdioTool | None = None
-        self._sessions: dict[str, AgentSession] = {}
+        self._moe_mcp: MCPStdioTool | None = None
+        self._sessions: dict[str, tuple[AgentSession, float]] = {}  # id -> (session, last_used)
+        self._last_cleanup = 0.0
 
     async def initialize(self):
         """Initialize Agent with AzureAIClient and MCP tools."""
+        # Minimal env for MCP subprocesses — only what they need
+        _base_env = {"PYTHONPATH": str(_backend_dir), "PATH": sys.prefix}
+
         self._onemap_mcp = MCPStdioTool(
             name="onemap",
             command=_python_exe,
             args=["-m", "mcp_servers.onemap"],
             env={
-                **os.environ,
+                **_base_env,
                 "ONEMAP_EMAIL": settings.onemap_email,
                 "ONEMAP_PASSWORD": settings.onemap_password,
-                "PYTHONPATH": str(_backend_dir),
             },
+            tool_name_prefix="onemap_",
         )
 
         self._ura_mcp = MCPStdioTool(
@@ -51,10 +54,18 @@ class GeoAgent:
             command=_python_exe,
             args=["-m", "mcp_servers.ura"],
             env={
-                **os.environ,
+                **_base_env,
                 "URA_ACCESS_KEY": settings.ura_access_key,
-                "PYTHONPATH": str(_backend_dir),
             },
+            tool_name_prefix="ura_",
+        )
+
+        self._moe_mcp = MCPStdioTool(
+            name="moe",
+            command=_python_exe,
+            args=["-m", "mcp_servers.moe"],
+            env=_base_env,
+            tool_name_prefix="moe_",
         )
 
         client = AzureAIClient(
@@ -63,29 +74,61 @@ class GeoAgent:
             credential=DefaultAzureCredential(),
         )
 
+        tools = [self._onemap_mcp, self._ura_mcp, self._moe_mcp]
+        tools.append(AzureAIClient.get_web_search_tool())
+        logger.info("Bing web search tool enabled")
+
         self._agent = Agent(
             client=client,
             instructions=SYSTEM_PROMPT,
             name="GeoAgent",
             description="Geospatial AI Agent for Singapore spatial data",
-            tools=[self._onemap_mcp, self._ura_mcp],
+            tools=tools,
         )
 
     async def cleanup(self):
-        """Clean up resources."""
+        """Clean up resources and close MCP subprocesses."""
+        for mcp_tool in (self._onemap_mcp, self._ura_mcp, self._moe_mcp):
+            if mcp_tool is not None:
+                try:
+                    await mcp_tool.close()
+                except Exception:
+                    logger.debug("Error closing MCP tool %s", getattr(mcp_tool, 'name', '?'), exc_info=True)
         self._agent = None
         self._onemap_mcp = None
         self._ura_mcp = None
+        self._moe_mcp = None
+        self._sessions.clear()
 
-    async def run_stream(self, session_id: str, user_message: str) -> AsyncIterator[dict]:
+    def _evict_stale_sessions(self) -> None:
+        """Remove sessions idle for longer than _SESSION_MAX_AGE."""
+        now = time.monotonic()
+        if now - self._last_cleanup < _SESSION_CLEANUP_INTERVAL:
+            return
+        self._last_cleanup = now
+        cutoff = now - _SESSION_MAX_AGE
+        stale = [sid for sid, (_, ts) in self._sessions.items() if ts < cutoff]
+        for sid in stale:
+            del self._sessions[sid]
+        if stale:
+            logger.info("Evicted %d stale sessions (%d remaining)", len(stale), len(self._sessions))
+
+    async def run_stream(
+        self, session_id: str, user_message: str
+    ) -> AsyncIterator[dict]:
         """Stream agent response, yielding text deltas and tool call events."""
         if not self._agent:
             raise RuntimeError("Agent not initialized")
 
-        if session_id not in self._sessions:
-            self._sessions[session_id] = AgentSession(session_id=session_id)
+        self._evict_stale_sessions()
 
-        session = self._sessions[session_id]
+        now = time.monotonic()
+        if session_id in self._sessions:
+            session, _ = self._sessions[session_id]
+        else:
+            session = AgentSession(session_id=session_id)
+        self._sessions[session_id] = (session, now)
+
         logger.info("[%s] User: %s", session_id[:8], user_message[:200])
 
         stream = self._agent.run(
@@ -96,6 +139,9 @@ class GeoAgent:
 
         # Track function calls by call_id to accumulate streamed arguments
         pending_calls: dict[str, dict] = {}  # call_id -> {name, args_parts}
+        # Track server-side web search (Bing grounding) — no function_call events
+        web_search_emitted = False
+        web_search_citations: list[dict] = []
 
         async for update in stream:
             if not update.contents:
@@ -125,7 +171,11 @@ class GeoAgent:
                 elif content.type == "function_result":
                     call_id = content.call_id or ""
                     call_info = pending_calls.pop(call_id, None)
-                    name = (call_info["name"] if call_info else None) or content.name or "unknown"
+                    name = (
+                        (call_info["name"] if call_info else None)
+                        or content.name
+                        or "unknown"
+                    )
 
                     # Parse accumulated arguments
                     args = {}
@@ -141,27 +191,95 @@ class GeoAgent:
                     result_str = ""
                     try:
                         if raw_result is not None:
-                            result_str = json.dumps(raw_result, default=str, ensure_ascii=False)
-                            if len(result_str) > 2000:
-                                result_str = result_str[:2000] + "... (truncated)"
+                            result_str = json.dumps(
+                                raw_result, default=str, ensure_ascii=False
+                            )
                         else:
                             result_str = str(getattr(content, "text", "") or "")
                     except Exception:
-                        result_str = str(raw_result)[:2000] if raw_result else ""
+                        result_str = str(raw_result) if raw_result else ""
 
-                    logger.info("[%s] Tool result: %s len=%d", session_id[:8], name, len(result_str))
+                    # Keep full result for fallback map extraction; truncate for display
+                    display_result = result_str
+                    if len(display_result) > 2000:
+                        display_result = display_result[:2000] + "... (truncated)"
+
+                    logger.info(
+                        "[%s] Tool result: %s len=%d",
+                        session_id[:8],
+                        name,
+                        len(result_str),
+                    )
                     yield {
                         "type": "tool_call",
                         "name": name,
                         "arguments": args,
                         "status": "completed",
-                        "result": result_str,
+                        "result": display_result,
+                        "full_result": result_str,
                     }
 
                 elif content.type == "text":
+                    # Detect server-side Bing web search via citation annotations
+                    annotations = getattr(content, "annotations", None) or []
+                    for ann in annotations:
+                        ann_type = (
+                            getattr(ann, "type", None)
+                            if not isinstance(ann, dict)
+                            else ann.get("type")
+                        )
+                        if ann_type == "citation":
+                            title = (
+                                getattr(ann, "title", None)
+                                if not isinstance(ann, dict)
+                                else ann.get("title")
+                            ) or ""
+                            url = (
+                                getattr(ann, "url", None)
+                                if not isinstance(ann, dict)
+                                else ann.get("url")
+                            ) or ""
+                            if not web_search_emitted:
+                                web_search_emitted = True
+                                logger.info(
+                                    "[%s] Tool call: bing_web_search (server-side)",
+                                    session_id[:8],
+                                )
+                                yield {
+                                    "type": "tool_call",
+                                    "name": "bing_web_search",
+                                    "arguments": {},
+                                    "status": "executing",
+                                    "result": None,
+                                }
+                            if url:
+                                web_search_citations.append(
+                                    {"title": title, "url": url}
+                                )
+
                     delta = content.text or ""
                     if delta:
                         yield {"type": "delta", "text": delta}
+
+        # Emit completed event for server-side web search
+        if web_search_emitted:
+            sources = (
+                "\n".join(f"- [{c['title']}]({c['url']})" for c in web_search_citations)
+                if web_search_citations
+                else "Search completed"
+            )
+            logger.info(
+                "[%s] Bing web search completed, %d citations",
+                session_id[:8],
+                len(web_search_citations),
+            )
+            yield {
+                "type": "tool_call",
+                "name": "bing_web_search",
+                "arguments": {},
+                "status": "completed",
+                "result": sources,
+            }
 
         logger.info("[%s] Stream complete", session_id[:8])
 

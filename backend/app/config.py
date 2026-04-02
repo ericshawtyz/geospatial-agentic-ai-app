@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     # Azure Content Understanding
     azure_content_understanding_endpoint: str = ""
 
+    # Bing Web Search (Azure AI Foundry connection)
+    bing_connection_id: str = ""
+
     # Server
     cors_origins: list[str] = ["http://localhost:5173"]
 

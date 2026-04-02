@@ -1,0 +1,272 @@
+[
+    {
+        "HSE_BLK_NUM": 4500,
+        "HYPERLINK": "http://www.asrjc.moe.edu.sg",
+        "LATITUDE": 1.3783967,
+        "LONGITUDE": 103.845886,
+        "MOREINFO": "The school is currently located at a temporary site, 1033 Upper Serangoon Road, Singapore 534768, due to upgrading. It will move back to its permanent location at 4500 Ang Mo Kio Ave 6, Singapore 569843, in December 2027.",
+        "POSTAL_CODE": "569843",
+        "ROAD_NAME": "ANG MO KIO AVENUE 6",
+        "SCHOOLNAME": "ANDERSON SERANGOON JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 25,
+        "HYPERLINK": "http://www.acjc.moe.edu.sg",
+        "LATITUDE": 1.303288,
+        "LONGITUDE": 103.785263,
+        "MOREINFO": "",
+        "POSTAL_CODE": "139745",
+        "ROAD_NAME": "DOVER CLOSE EAST",
+        "SCHOOLNAME": "ANGLO-CHINESE JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 121,
+        "HYPERLINK": "http://www.acsindep.moe.edu.sg",
+        "LATITUDE": 1.3024448,
+        "LONGITUDE": 103.7802498,
+        "MOREINFO": "",
+        "POSTAL_CODE": "139650",
+        "ROAD_NAME": "DOVER ROAD",
+        "SCHOOLNAME": "ANGLO-CHINESE SCHOOL (INDEPENDENT)"
+    },
+    {
+        "HSE_BLK_NUM": 129,
+        "HYPERLINK": "http://www.cjc.moe.edu.sg",
+        "LATITUDE": 1.3246488,
+        "LONGITUDE": 103.8355514,
+        "MOREINFO": "",
+        "POSTAL_CODE": "297822",
+        "ROAD_NAME": "WHITLEY ROAD",
+        "SCHOOLNAME": "CATHOLIC JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "http://www.dunmanhigh.moe.edu.sg",
+        "LATITUDE": 1.2991253,
+        "LONGITUDE": 103.8828617,
+        "MOREINFO": "",
+        "POSTAL_CODE": "436895",
+        "ROAD_NAME": "TANJONG RHU ROAD",
+        "SCHOOLNAME": "DUNMAN HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "http://www.eunoiajc.moe.edu.sg",
+        "LATITUDE": 1.3624543,
+        "LONGITUDE": 103.840484,
+        "MOREINFO": "",
+        "POSTAL_CODE": "573838",
+        "ROAD_NAME": "SIN MING PLACE",
+        "SCHOOLNAME": "EUNOIA JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 661,
+        "HYPERLINK": "http://www.hci.edu.sg",
+        "LATITUDE": 1.3256149,
+        "LONGITUDE": 103.8057306,
+        "MOREINFO": "",
+        "POSTAL_CODE": "269734",
+        "ROAD_NAME": "BUKIT TIMAH ROAD",
+        "SCHOOLNAME": "HWA CHONG INSTITUTION"
+    },
+    {
+        "HSE_BLK_NUM": 2,
+        "HYPERLINK": "http://www.ite.edu.sg",
+        "LATITUDE": 1.377892,
+        "LONGITUDE": 103.856412,
+        "MOREINFO": "",
+        "POSTAL_CODE": "567720",
+        "ROAD_NAME": "ANG MO KIO DRIVE",
+        "SCHOOLNAME": "ITE COLLEGE CENTRAL"
+    },
+    {
+        "HSE_BLK_NUM": 10,
+        "HYPERLINK": "http://www.ite.edu.sg",
+        "LATITUDE": 1.334554,
+        "LONGITUDE": 103.954985,
+        "MOREINFO": "",
+        "POSTAL_CODE": "486047",
+        "ROAD_NAME": "SIMEI AVENUE",
+        "SCHOOLNAME": "ITE COLLEGE EAST"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "http://www.ite.edu.sg",
+        "LATITUDE": 1.3750537,
+        "LONGITUDE": 103.7522197,
+        "MOREINFO": "",
+        "POSTAL_CODE": "688236",
+        "ROAD_NAME": "CHOA CHU KANG GROVE",
+        "SCHOOLNAME": "ITE COLLEGE WEST"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "http://www.jpjc.moe.edu.sg",
+        "LATITUDE": 1.3846095,
+        "LONGITUDE": 103.7539328,
+        "MOREINFO": "",
+        "POSTAL_CODE": "688258",
+        "ROAD_NAME": "TECK WHYE WALK",
+        "SCHOOLNAME": "JURONG PIONEER JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 60,
+        "HYPERLINK": "http://www.millenniainstitute.moe.edu.sg",
+        "LATITUDE": 1.3503193,
+        "LONGITUDE": 103.7415936,
+        "MOREINFO": "",
+        "POSTAL_CODE": "658965",
+        "ROAD_NAME": "BUKIT BATOK WEST AVENUE 8",
+        "SCHOOLNAME": "MILLENNIA INSTITUTE"
+    },
+    {
+        "HSE_BLK_NUM": 128,
+        "HYPERLINK": "http://www.nanyangjc.moe.edu.sg",
+        "LATITUDE": 1.3502831,
+        "LONGITUDE": 103.8664987,
+        "MOREINFO": "",
+        "POSTAL_CODE": "556111",
+        "ROAD_NAME": "SERANGOON AVENUE 3",
+        "SCHOOLNAME": "NANYANG JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 180,
+        "HYPERLINK": "http://www.nyp.edu.sg",
+        "LATITUDE": 1.3797636,
+        "LONGITUDE": 103.8491577,
+        "MOREINFO": "",
+        "POSTAL_CODE": "569830",
+        "ROAD_NAME": "ANG MO KIO AVENUE 8",
+        "SCHOOLNAME": "NANYANG POLYTECHNIC"
+    },
+    {
+        "HSE_BLK_NUM": 37,
+        "HYPERLINK": "http://www.nationaljc.moe.edu.sg",
+        "LATITUDE": 1.3304299,
+        "LONGITUDE": 103.8044587,
+        "MOREINFO": "",
+        "POSTAL_CODE": "288913",
+        "ROAD_NAME": "HILLCREST ROAD",
+        "SCHOOLNAME": "NATIONAL JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 535,
+        "HYPERLINK": "http://www.np.edu.sg",
+        "LATITUDE": 1.3324806,
+        "LONGITUDE": 103.7733059,
+        "MOREINFO": "",
+        "POSTAL_CODE": "599489",
+        "ROAD_NAME": "CLEMENTI ROAD",
+        "SCHOOLNAME": "NGEE ANN POLYTECHNIC"
+    },
+    {
+        "HSE_BLK_NUM": 1,
+        "HYPERLINK": "http://www.ri.edu.sg",
+        "LATITUDE": 1.3469649,
+        "LONGITUDE": 103.8437657,
+        "MOREINFO": "",
+        "POSTAL_CODE": "575954",
+        "ROAD_NAME": "RAFFLES INSTITUTION LANE",
+        "SCHOOLNAME": "RAFFLES INSTITUTION"
+    },
+    {
+        "HSE_BLK_NUM": 9,
+        "HYPERLINK": "http://www.rp.edu.sg",
+        "LATITUDE": 1.4462377,
+        "LONGITUDE": 103.7829712,
+        "MOREINFO": "",
+        "POSTAL_CODE": "738964",
+        "ROAD_NAME": "WOODLANDS AVENUE 9",
+        "SCHOOLNAME": "REPUBLIC POLYTECHNIC"
+    },
+    {
+        "HSE_BLK_NUM": 6,
+        "HYPERLINK": "http://www.rivervalleyhigh.moe.edu.sg",
+        "LATITUDE": 1.3445958,
+        "LONGITUDE": 103.7081907,
+        "MOREINFO": "",
+        "POSTAL_CODE": "649961",
+        "ROAD_NAME": "BOON LAY AVENUE",
+        "SCHOOLNAME": "RIVER VALLEY HIGH SCHOOL"
+    },
+    {
+        "HSE_BLK_NUM": 500,
+        "HYPERLINK": "http://www.sp.edu.sg",
+        "LATITUDE": 1.3108732,
+        "LONGITUDE": 103.7774398,
+        "MOREINFO": "",
+        "POSTAL_CODE": "139651",
+        "ROAD_NAME": "DOVER ROAD",
+        "SCHOOLNAME": "SINGAPORE POLYTECHNIC"
+    },
+    {
+        "HSE_BLK_NUM": 5,
+        "HYPERLINK": "http://www.standrewsjc.moe.edu.sg",
+        "LATITUDE": 1.3327889,
+        "LONGITUDE": 103.8634813,
+        "MOREINFO": "",
+        "POSTAL_CODE": "357691",
+        "ROAD_NAME": "SORBY ADAMS DRIVE",
+        "SCHOOLNAME": "ST. ANDREW'S JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 38,
+        "HYPERLINK": "http://www.sji.edu.sg",
+        "LATITUDE": 1.3236556,
+        "LONGITUDE": 103.8285665,
+        "MOREINFO": "",
+        "POSTAL_CODE": "308274",
+        "ROAD_NAME": "MALCOLM ROAD",
+        "SCHOOLNAME": "ST. JOSEPH'S INSTITUTION"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "http://www.tmjc.moe.edu.sg",
+        "LATITUDE": 1.3767419,
+        "LONGITUDE": 103.9375533,
+        "MOREINFO": "",
+        "POSTAL_CODE": "518799",
+        "ROAD_NAME": "PASIR RIS STREET 71",
+        "SCHOOLNAME": "TAMPINES MERIDIAN JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 22,
+        "HYPERLINK": "http://www.temasekjc.moe.edu.sg",
+        "LATITUDE": 1.3184619,
+        "LONGITUDE": 103.935598,
+        "MOREINFO": "The school is currently located at a temporary site, 2 Tampines Avenue 9, Singapore 529564, due to upgrading. It will move back to its permanent location at 22 Bedok South Road, Singapore 469278, in December 2027.",
+        "POSTAL_CODE": "469278",
+        "ROAD_NAME": "BEDOK SOUTH ROAD",
+        "SCHOOLNAME": "TEMASEK JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 21,
+        "HYPERLINK": "http://www.tp.edu.sg",
+        "LATITUDE": 1.3463472,
+        "LONGITUDE": 103.9319322,
+        "MOREINFO": "",
+        "POSTAL_CODE": "529757",
+        "ROAD_NAME": "TAMPINES AVENUE 1",
+        "SCHOOLNAME": "TEMASEK POLYTECHNIC"
+    },
+    {
+        "HSE_BLK_NUM": 20,
+        "HYPERLINK": "http://www.victoriajc.moe.edu.sg",
+        "LATITUDE": 1.305718,
+        "LONGITUDE": 103.919531,
+        "MOREINFO": "",
+        "POSTAL_CODE": "449035",
+        "ROAD_NAME": "MARINE VISTA",
+        "SCHOOLNAME": "VICTORIA JUNIOR COLLEGE"
+    },
+    {
+        "HSE_BLK_NUM": 3,
+        "HYPERLINK": "http://www.yijc.moe.edu.sg",
+        "LATITUDE": 1.4246188,
+        "LONGITUDE": 103.8296344,
+        "MOREINFO": "",
+        "POSTAL_CODE": "768675",
+        "ROAD_NAME": "YISHUN RING ROAD",
+        "SCHOOLNAME": "YISHUN INNOVA JUNIOR COLLEGE"
+    }
+]

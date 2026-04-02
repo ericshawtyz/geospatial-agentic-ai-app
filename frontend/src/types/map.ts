@@ -32,6 +32,16 @@ export interface GeoJSONData {
   };
 }
 
+export interface CircleData {
+  lat: number;
+  lng: number;
+  radius: number; // in metres
+  color?: string;
+  fillColor?: string;
+  fillOpacity?: number;
+  label?: string;
+}
+
 export interface ViewData {
   lat: number;
   lng: number;
@@ -41,6 +51,7 @@ export interface ViewData {
 export interface MapState {
   markers: MarkerData[];
   polygons: PolygonData[];
+  circles: CircleData[];
   routes: RouteData[];
   geojsonLayers: GeoJSONData[];
   view: ViewData;
@@ -49,6 +60,7 @@ export interface MapState {
 export const DEFAULT_MAP_STATE: MapState = {
   markers: [],
   polygons: [],
+  circles: [],
   routes: [],
   geojsonLayers: [],
   view: {

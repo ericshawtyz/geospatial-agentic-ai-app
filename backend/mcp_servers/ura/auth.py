@@ -1,3 +1,4 @@
+import asyncio
 import os
 import time
 
@@ -7,10 +8,23 @@ BASE_URL = "https://eservice.ura.gov.sg"
 
 _token: str | None = None
 _token_expiry: float = 0
+_token_lock = asyncio.Lock()
+_client: httpx.AsyncClient | None = None
 
 
 def _access_key() -> str:
     return os.environ.get("URA_ACCESS_KEY", "")
+
+
+def _get_client() -> httpx.AsyncClient:
+    global _client
+    if _client is None or _client.is_closed:
+        _client = httpx.AsyncClient(
+            base_url=BASE_URL,
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=30.0,
+        )
+    return _client
 
 
 async def get_token() -> str:
@@ -20,18 +34,23 @@ async def get_token() -> str:
     if _token and time.time() < _token_expiry:
         return _token
 
-    async with httpx.AsyncClient() as client:
+    async with _token_lock:
+        # Re-check after acquiring lock
+        if _token and time.time() < _token_expiry:
+            return _token
+
+        client = _get_client()
         resp = await client.get(
-            f"{BASE_URL}/uraDataService/insertNewToken/v1",
+            "/uraDataService/insertNewToken/v1",
             headers={"AccessKey": _access_key()},
         )
         resp.raise_for_status()
         data = resp.json()
 
-    _token = data["Result"]
-    # Token valid for 1 day; refresh after 20 hours
-    _token_expiry = time.time() + 20 * 3600
-    return _token
+        _token = data["Result"]
+        # Token valid for 1 day; refresh after 20 hours
+        _token_expiry = time.time() + 20 * 3600
+        return _token
 
 
 async def ura_get(service: str, params: dict | None = None) -> dict:
@@ -40,18 +59,17 @@ async def ura_get(service: str, params: dict | None = None) -> dict:
     query: dict = {"service": service}
     if params:
         query.update(params)
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
-            f"{BASE_URL}/uraDataService/invokeUraDS/v1",
-            params=query,
-            headers={
-                "AccessKey": _access_key(),
-                "Token": token,
-            },
-            timeout=30.0,
-        )
-        resp.raise_for_status()
-        return resp.json()
+    client = _get_client()
+    resp = await client.get(
+        "/uraDataService/invokeUraDS/v1",
+        params=query,
+        headers={
+            "AccessKey": _access_key(),
+            "Token": token,
+        },
+    )
+    resp.raise_for_status()
+    return resp.json()
 
 
 def svy21_to_wgs84(x: float, y: float) -> tuple[float, float]:
@@ -96,9 +114,7 @@ def svy21_to_wgs84(x: float, y: float) -> tuple[float, float]:
     n3 = n2 * n
     n4 = n2 * n2
 
-    sigma = (M_prime / (a * (1 + n2 / 4 + n4 / 64))) * (
-        1 + n2 / 4 + n4 / 64
-    )
+    sigma = (M_prime / (a * (1 + n2 / 4 + n4 / 64))) * (1 + n2 / 4 + n4 / 64)
     lat_prime = (
         sigma
         + (3 * n / 2 - 27 * n3 / 32) * math.sin(2 * sigma)
@@ -158,12 +174,7 @@ def svy21_to_wgs84(x: float, y: float) -> tuple[float, float]:
         x_nu5
         * sec_lat
         / 120
-        * (
-            -4 * psi3 * (1 - 6 * t2)
-            + psi2 * (9 - 68 * t2)
-            + 72 * psi * t2
-            + 24 * t4
-        )
+        * (-4 * psi3 * (1 - 6 * t2) + psi2 * (9 - 68 * t2) + 72 * psi * t2 + 24 * t4)
     )
     term4_lon = x_nu7 * sec_lat / 5040 * (61 + 662 * t2 + 1320 * t4 + 720 * t6)
 
