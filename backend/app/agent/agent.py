@@ -29,7 +29,9 @@ class GeoAgent:
         self._onemap_mcp: MCPStdioTool | None = None
         self._ura_mcp: MCPStdioTool | None = None
         self._moe_mcp: MCPStdioTool | None = None
-        self._sessions: dict[str, tuple[AgentSession, float]] = {}  # id -> (session, last_used)
+        self._sessions: dict[str, tuple[AgentSession, float]] = (
+            {}
+        )  # id -> (session, last_used)
         self._last_cleanup = 0.0
 
     async def initialize(self):
@@ -93,7 +95,11 @@ class GeoAgent:
                 try:
                     await mcp_tool.close()
                 except Exception:
-                    logger.debug("Error closing MCP tool %s", getattr(mcp_tool, 'name', '?'), exc_info=True)
+                    logger.debug(
+                        "Error closing MCP tool %s",
+                        getattr(mcp_tool, "name", "?"),
+                        exc_info=True,
+                    )
         self._agent = None
         self._onemap_mcp = None
         self._ura_mcp = None
@@ -111,7 +117,11 @@ class GeoAgent:
         for sid in stale:
             del self._sessions[sid]
         if stale:
-            logger.info("Evicted %d stale sessions (%d remaining)", len(stale), len(self._sessions))
+            logger.info(
+                "Evicted %d stale sessions (%d remaining)",
+                len(stale),
+                len(self._sessions),
+            )
 
     async def run_stream(
         self, session_id: str, user_message: str
