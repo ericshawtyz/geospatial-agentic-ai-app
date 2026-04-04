@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from openai import AsyncAzureOpenAI
 from azure.identity.aio import DefaultAzureCredential
+from openai import AsyncAzureOpenAI
 
 from app.config import settings
 
@@ -57,9 +57,7 @@ def _process_geojson(file_bytes: bytes, filename: str) -> dict:
     }
 
 
-async def _process_image(
-    file_bytes: bytes, filename: str, content_type: str
-) -> dict:
+async def _process_image(file_bytes: bytes, filename: str, content_type: str) -> dict:
     """Process image using GPT-4o vision to extract text and spatial info."""
     import base64
 
@@ -94,9 +92,7 @@ async def _process_image(
                         },
                         {
                             "type": "image_url",
-                            "image_url": {
-                                "url": f"data:{content_type};base64,{b64}"
-                            },
+                            "image_url": {"url": f"data:{content_type};base64,{b64}"},
                         },
                     ],
                 }
@@ -154,7 +150,10 @@ async def _process_document(
 
         # Truncate if extremely large to avoid context window issues
         if len(markdown) > 15000:
-            markdown = markdown[:15000] + "\n\n... (document truncated, showing first ~15000 characters)"
+            markdown = (
+                markdown[:15000]
+                + "\n\n... (document truncated, showing first ~15000 characters)"
+            )
 
         page_count = 0
         if isinstance(content_item, DocumentContent):
@@ -178,16 +177,80 @@ async def _process_document(
         await credential.close()
 
 
-async def _process_video(
-    file_bytes: bytes, filename: str, content_type: str
-) -> dict:
-    """Process video — placeholder for frame extraction + vision analysis."""
-    return {
-        "type": "video_analysis",
-        "filename": filename,
-        "content": (
-            "Video processing is available. Upload individual frames as images "
-            "for detailed analysis, or this file will be processed when Azure "
-            "Content Understanding video analysis is configured."
-        ),
-    }
+async def _process_video(file_bytes: bytes, filename: str, content_type: str) -> dict:
+    """Process video using Azure Content Understanding for segment analysis."""
+    from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
+    from azure.ai.contentunderstanding.models import AudioVisualContent
+
+    endpoint = settings.azure_content_understanding_endpoint
+    if not endpoint:
+        return {
+            "type": "error",
+            "filename": filename,
+            "message": (
+                "Video processing requires Azure Content Understanding. "
+                "Set AZURE_CONTENT_UNDERSTANDING_ENDPOINT in your .env file."
+            ),
+        }
+
+    credential = DefaultAzureCredential()
+    try:
+        async with ContentUnderstandingClient(
+            endpoint=endpoint, credential=credential
+        ) as client:
+            poller = await client.begin_analyze_binary(
+                analyzer_id="prebuilt-videoSearch",
+                binary_input=file_bytes,
+            )
+            result = await poller.result()
+
+        if not result.contents or len(result.contents) == 0:
+            return {
+                "type": "error",
+                "filename": filename,
+                "message": "No content extracted from video.",
+            }
+
+        # Build a structured summary from all content segments
+        segments_output = []
+        full_markdown = ""
+        for content_item in result.contents:
+            md = content_item.markdown or ""
+            full_markdown += md + "\n\n"
+
+            if isinstance(content_item, AudioVisualContent):
+                segment_info = {
+                    "start_ms": content_item.start_time_ms,
+                    "end_ms": content_item.end_time_ms,
+                    "markdown": md[:2000] if len(md) > 2000 else md,
+                }
+                if content_item.segments:
+                    segment_info["segments"] = [
+                        {
+                            "id": seg.segment_id,
+                            "category": seg.category,
+                            "start_ms": seg.start_time_ms,
+                            "end_ms": seg.end_time_ms,
+                        }
+                        for seg in content_item.segments
+                    ]
+                segments_output.append(segment_info)
+
+        # Truncate if extremely large to avoid context window issues
+        if len(full_markdown) > 15000:
+            full_markdown = full_markdown[:15000] + "\n\n... (truncated)"
+
+        return {
+            "type": "video_analysis",
+            "filename": filename,
+            "content": full_markdown.strip(),
+            "segments": segments_output if segments_output else None,
+        }
+    except Exception as e:
+        return {
+            "type": "error",
+            "filename": filename,
+            "message": f"Content Understanding video error: {e}",
+        }
+    finally:
+        await credential.close()

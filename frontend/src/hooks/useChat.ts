@@ -24,6 +24,7 @@ export function useChat(): UseChatReturn {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const intentionalCloseRef = useRef(false);
   const streamingIdRef = useRef<string | null>(null);
   const userLocationRef = useRef<UserLocation | null>(null);
 
@@ -46,6 +47,13 @@ export function useChat(): UseChatReturn {
   }, []);
 
   const connect = useCallback(() => {
+    // Clean up any previous connection
+    if (wsRef.current) {
+      wsRef.current.onclose = null;
+      wsRef.current.close();
+    }
+
+    intentionalCloseRef.current = false;
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const ws = new WebSocket(`${protocol}//${window.location.host}/ws/chat`);
 
@@ -55,8 +63,10 @@ export function useChat(): UseChatReturn {
 
     ws.onclose = () => {
       setIsConnected(false);
-      // Reconnect after 3 seconds
-      reconnectTimeoutRef.current = setTimeout(connect, 3000);
+      // Only reconnect if the close was not intentional (e.g. cleanup)
+      if (!intentionalCloseRef.current) {
+        reconnectTimeoutRef.current = setTimeout(connect, 3000);
+      }
     };
 
     ws.onerror = () => {
@@ -189,6 +199,7 @@ export function useChat(): UseChatReturn {
   useEffect(() => {
     connect();
     return () => {
+      intentionalCloseRef.current = true;
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
       }

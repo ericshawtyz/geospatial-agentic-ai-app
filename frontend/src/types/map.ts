@@ -64,7 +64,7 @@ export const DEFAULT_MAP_STATE: MapState = {
   routes: [],
   geojsonLayers: [],
   view: {
-    lat: 1.35,
+    lat: 1.3425,
     lng: 103.8198,
     zoom: 12,
   },

@@ -1,5 +1,5 @@
-from mcp_servers.onemap.server import mcp
 from mcp_servers.onemap.auth import onemap_get
+from mcp_servers.onemap.server import mcp
 
 
 @mcp.tool()
@@ -46,9 +46,23 @@ async def retrieve_theme(queryName: str, extents: str | None = None) -> dict:
 
     Args:
         queryName: The theme query name
-        extents: Optional boundary filter as 'lat1,lng1,lat2,lng2' (WGS84)
+        extents: Optional boundary filter as 'lat1,lng1,lat2,lng2' (WGS84). Strongly recommended to avoid very large responses.
     """
     params: dict = {"queryName": queryName}
     if extents:
         params["extents"] = extents
-    return await onemap_get("/api/public/themesvc/retrieveTheme", params)
+    result = await onemap_get("/api/public/themesvc/retrieveTheme", params)
+
+    # Cap the number of features to prevent context-window overflow.
+    # The first item in SrchResults is metadata; the rest are features.
+    _MAX_FEATURES = 50
+    if isinstance(result, dict) and "SrchResults" in result:
+        items = result["SrchResults"]
+        if isinstance(items, list) and len(items) > _MAX_FEATURES + 1:
+            total = len(items) - 1  # exclude metadata row
+            result["SrchResults"] = items[: _MAX_FEATURES + 1]
+            result["_truncated"] = True
+            result["_total_features"] = total
+            result["_returned_features"] = _MAX_FEATURES
+
+    return result

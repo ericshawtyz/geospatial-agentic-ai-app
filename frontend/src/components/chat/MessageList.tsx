@@ -142,7 +142,7 @@ export default function MessageList({ messages, isLoading }: MessageListProps) {
                 color: 'text.primary',
               }}
             >
-              {msg.role === 'user' ? 'User' : 'Assistant'}
+              {msg.role === 'user' ? 'User' : 'Agent'}
             </Typography>
             <Box
               className="markdown-content"
@@ -211,7 +211,7 @@ export default function MessageList({ messages, isLoading }: MessageListProps) {
                 color: 'text.primary',
               }}
             >
-              Assistant
+              Agent
             </Typography>
             <Box
               sx={{

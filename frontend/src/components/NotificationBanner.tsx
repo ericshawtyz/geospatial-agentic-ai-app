@@ -10,19 +10,19 @@ const severityConfig: Record<
   { icon: React.ReactNode; bg: string; border: string; color: string }
 > = {
   info: {
-    icon: <InfoOutlinedIcon sx={{ fontSize: 18, color: '#1976d2' }} />,
+    icon: <InfoOutlinedIcon sx={{ fontSize: 24, color: '#1976d2' }} />,
     bg: '#e3f2fd',
     border: '#90caf9',
     color: '#0d47a1',
   },
   success: {
-    icon: <CheckCircleOutlineIcon sx={{ fontSize: 18, color: '#2e7d32' }} />,
+    icon: <CheckCircleOutlineIcon sx={{ fontSize: 24, color: '#2e7d32' }} />,
     bg: '#e8f5e9',
     border: '#a5d6a7',
     color: '#1b5e20',
   },
   error: {
-    icon: <ErrorOutlineIcon sx={{ fontSize: 18, color: '#c62828' }} />,
+    icon: <ErrorOutlineIcon sx={{ fontSize: 24, color: '#c62828' }} />,
     bg: '#fce4ec',
     border: '#ef9a9a',
     color: '#b71c1c',
@@ -47,7 +47,7 @@ export default function NotificationBanner({ notifications, onDismiss }: Notific
         display: 'flex',
         flexDirection: 'column',
         gap: 1,
-        maxWidth: 360,
+        maxWidth: 480,
       }}
     >
       {notifications.map((n) => {
@@ -58,9 +58,9 @@ export default function NotificationBanner({ notifications, onDismiss }: Notific
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1,
-              px: 1.5,
-              py: 1,
+              gap: 1.5,
+              px: 2.5,
+              py: 1.5,
               bgcolor: cfg.bg,
               border: `1px solid ${cfg.border}`,
               borderRadius: 1,
@@ -76,7 +76,7 @@ export default function NotificationBanner({ notifications, onDismiss }: Notific
             <Typography
               sx={{
                 flex: 1,
-                fontSize: '13px',
+                fontSize: '15px',
                 fontWeight: 500,
                 color: cfg.color,
                 lineHeight: 1.4,
@@ -84,8 +84,8 @@ export default function NotificationBanner({ notifications, onDismiss }: Notific
             >
               {n.message}
             </Typography>
-            <IconButton size="small" onClick={() => onDismiss(n.id)} sx={{ p: 0.25 }}>
-              <CloseIcon sx={{ fontSize: 16, color: cfg.color }} />
+            <IconButton size="small" onClick={() => onDismiss(n.id)} sx={{ p: 0.5 }}>
+              <CloseIcon sx={{ fontSize: 20, color: cfg.color }} />
             </IconButton>
           </Box>
         );

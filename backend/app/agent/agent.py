@@ -1,9 +1,14 @@
 import json
 import logging
+import re
 import sys
 import time
 from collections.abc import AsyncIterator
 from pathlib import Path
+
+# Pattern to strip Bing grounding citation tags like citeturn0search0
+_CITE_TAG_RE = re.compile(r"\bciteturn\d+search\d+\b")
+_CITE_HOLDBACK = 25  # max chars to buffer for split citation tags
 
 from agent_framework import Agent, AgentSession, MCPStdioTool, Message
 from agent_framework_azure_ai import AzureAIClient
@@ -152,6 +157,8 @@ class GeoAgent:
         # Track server-side web search (Bing grounding) — no function_call events
         web_search_emitted = False
         web_search_citations: list[dict] = []
+        # Buffer for stripping citation tags that may be split across chunks
+        cite_buffer = ""
 
         async for update in stream:
             if not update.contents:
@@ -269,7 +276,22 @@ class GeoAgent:
 
                     delta = content.text or ""
                     if delta:
-                        yield {"type": "delta", "text": delta}
+                        # Accumulate text in buffer to catch citation tags
+                        # split across streaming chunks
+                        cite_buffer += delta
+                        cite_buffer = _CITE_TAG_RE.sub("", cite_buffer)
+                        # Hold back last N chars in case a tag is partially streamed
+                        if len(cite_buffer) > _CITE_HOLDBACK:
+                            safe = cite_buffer[:-_CITE_HOLDBACK]
+                            cite_buffer = cite_buffer[-_CITE_HOLDBACK:]
+                            if safe:
+                                yield {"type": "delta", "text": safe}
+
+        # Flush remaining buffered text
+        if cite_buffer:
+            cite_buffer = _CITE_TAG_RE.sub("", cite_buffer)
+            if cite_buffer:
+                yield {"type": "delta", "text": cite_buffer}
 
         # Emit completed event for server-side web search
         if web_search_emitted:
