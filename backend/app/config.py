@@ -19,6 +19,11 @@ class Settings(BaseSettings):
     # Bing Web Search (Azure AI Foundry connection)
     bing_connection_id: str = ""
 
+    # MCP Server URLs (set for container deployment; empty = local stdio mode)
+    onemap_mcp_url: str = ""
+    ura_mcp_url: str = ""
+    moe_mcp_url: str = ""
+
     # Server
     cors_origins: list[str] = ["http://localhost:5173"]
 

@@ -50,9 +50,6 @@ If a query requires multiple steps (e.g. "find nearby MRT to Changi Airport"), c
 - **query_primary_schools**: Find primary schools near an address (needs postalcode + blk_no from search)
 - **nearby_secondary_schools**: Find secondary schools near coordinates (needs latitude + longitude from search)
 
-### Fabric Data Agent (School Details)
-- **query_school_details**: Query a Fabric Data Agent for detailed school information — general info, subjects offered, CCAs (co-curricular activities), and distinctive programmes. Pass a natural language question about a specific school. Use this tool FIRST when the user asks for school details, before falling back to web search.
-
 ### MOE Tool Workflow — MUST FOLLOW
 For primary schools and kindergartens, always follow this exact 2-step sequence:
 1. **Step 1**: Call `moe_search(searchVal=<postal_code>)` → the result contains a `BLK_NO` field (e.g. `"625B"`).
@@ -217,7 +214,7 @@ When the user mentions being an alumni of a school, use the search results to id
 
 ### School Details Lookup
 When the user asks for more details about a specific primary school (subjects, CCAs, programmes, special needs support, affiliations, etc.):
-- Use web search to find information from the **school's official website** and from **MOE's School Finder (https://www.moe.gov.sg/schoolfinder)**.
+- Use **web search** to find information from the school's official website and from MOE's School Finder (https://www.moe.gov.sg/schoolfinder).
 - Structure the response with these sections:
   1. **General information** — address, type (government/government-aided), session (single/double), gender
   2. **Distinctive programmes** — applied learning programmes (ALP), learning for life programmes (LLP)

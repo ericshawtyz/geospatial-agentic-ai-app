@@ -1,0 +1,7 @@
+.venv
+.env
+__pycache__
+*.pyc
+.git
+setup_content_understanding.py
+data/

@@ -1,0 +1,61 @@
+services:
+  mcp-onemap:
+    build:
+      context: ./backend
+      dockerfile: mcp_servers/onemap/Dockerfile
+    environment:
+      - MCP_TRANSPORT=streamable-http
+      - ONEMAP_EMAIL=${ONEMAP_EMAIL}
+      - ONEMAP_PASSWORD=${ONEMAP_PASSWORD}
+    ports:
+      - "8001:8000"
+
+  mcp-ura:
+    build:
+      context: ./backend
+      dockerfile: mcp_servers/ura/Dockerfile
+    environment:
+      - MCP_TRANSPORT=streamable-http
+      - URA_ACCESS_KEY=${URA_ACCESS_KEY}
+    ports:
+      - "8002:8000"
+
+  mcp-moe:
+    build:
+      context: ./backend
+      dockerfile: mcp_servers/moe/Dockerfile
+    environment:
+      - MCP_TRANSPORT=streamable-http
+    ports:
+      - "8003:8000"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - AZURE_AI_PROJECT_ENDPOINT=${AZURE_AI_PROJECT_ENDPOINT}
+      - MODEL_DEPLOYMENT_NAME=${MODEL_DEPLOYMENT_NAME:-gpt-4o}
+      - AZURE_CONTENT_UNDERSTANDING_ENDPOINT=${AZURE_CONTENT_UNDERSTANDING_ENDPOINT}
+      - BING_CONNECTION_ID=${BING_CONNECTION_ID}
+      - ONEMAP_MCP_URL=http://mcp-onemap:8000/mcp
+      - URA_MCP_URL=http://mcp-ura:8000/mcp
+      - MOE_MCP_URL=http://mcp-moe:8000/mcp
+      - CORS_ORIGINS=["http://localhost:8080"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mcp-onemap
+      - mcp-ura
+      - mcp-moe
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - BACKEND_HOST=backend:8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend

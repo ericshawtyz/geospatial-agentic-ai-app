@@ -10,7 +10,7 @@ from pathlib import Path
 _CITE_TAG_RE = re.compile(r"\bciteturn\d+search\d+\b")
 _CITE_HOLDBACK = 25  # max chars to buffer for split citation tags
 
-from agent_framework import Agent, AgentSession, MCPStdioTool, Message
+from agent_framework import Agent, AgentSession, MCPStdioTool, MCPStreamableHTTPTool, Message
 from agent_framework_azure_ai import AzureAIClient
 from azure.identity import DefaultAzureCredential
 
@@ -21,6 +21,7 @@ logger = logging.getLogger("geo_agent")
 
 _backend_dir = Path(__file__).resolve().parent.parent.parent
 _python_exe = sys.executable
+_base_env = {"PYTHONPATH": str(_backend_dir), "PATH": sys.prefix}
 
 _SESSION_MAX_AGE = 30 * 60  # 30 minutes
 _SESSION_CLEANUP_INTERVAL = 5 * 60  # check every 5 minutes
@@ -31,57 +32,85 @@ class GeoAgent:
 
     def __init__(self):
         self._agent: Agent | None = None
-        self._onemap_mcp: MCPStdioTool | None = None
-        self._ura_mcp: MCPStdioTool | None = None
-        self._moe_mcp: MCPStdioTool | None = None
+        self._onemap_mcp: MCPStdioTool | MCPStreamableHTTPTool | None = None
+        self._ura_mcp: MCPStdioTool | MCPStreamableHTTPTool | None = None
+        self._moe_mcp: MCPStdioTool | MCPStreamableHTTPTool | None = None
         self._sessions: dict[str, tuple[AgentSession, float]] = (
             {}
         )  # id -> (session, last_used)
         self._last_cleanup = 0.0
 
     async def initialize(self):
-        """Initialize Agent with AzureAIClient and MCP tools."""
-        # Minimal env for MCP subprocesses — only what they need
-        _base_env = {"PYTHONPATH": str(_backend_dir), "PATH": sys.prefix}
+        """Initialize Agent with MCP tools."""
+        # --- OneMap MCP tool ---
+        if settings.onemap_mcp_url:
+            logger.info("OneMap MCP: HTTP → %s", settings.onemap_mcp_url)
+            self._onemap_mcp = MCPStreamableHTTPTool(
+                name="onemap",
+                url=settings.onemap_mcp_url,
+                tool_name_prefix="onemap_",
+            )
+        else:
+            logger.info("OneMap MCP: local stdio")
+            self._onemap_mcp = MCPStdioTool(
+                name="onemap",
+                command=_python_exe,
+                args=["-m", "mcp_servers.onemap"],
+                env={
+                    **_base_env,
+                    "ONEMAP_EMAIL": settings.onemap_email,
+                    "ONEMAP_PASSWORD": settings.onemap_password,
+                },
+                tool_name_prefix="onemap_",
+            )
 
-        self._onemap_mcp = MCPStdioTool(
-            name="onemap",
-            command=_python_exe,
-            args=["-m", "mcp_servers.onemap"],
-            env={
-                **_base_env,
-                "ONEMAP_EMAIL": settings.onemap_email,
-                "ONEMAP_PASSWORD": settings.onemap_password,
-            },
-            tool_name_prefix="onemap_",
-        )
+        # --- URA MCP tool ---
+        if settings.ura_mcp_url:
+            logger.info("URA MCP: HTTP → %s", settings.ura_mcp_url)
+            self._ura_mcp = MCPStreamableHTTPTool(
+                name="ura",
+                url=settings.ura_mcp_url,
+                tool_name_prefix="ura_",
+            )
+        else:
+            logger.info("URA MCP: local stdio")
+            self._ura_mcp = MCPStdioTool(
+                name="ura",
+                command=_python_exe,
+                args=["-m", "mcp_servers.ura"],
+                env={
+                    **_base_env,
+                    "URA_ACCESS_KEY": settings.ura_access_key,
+                },
+                tool_name_prefix="ura_",
+            )
 
-        self._ura_mcp = MCPStdioTool(
-            name="ura",
-            command=_python_exe,
-            args=["-m", "mcp_servers.ura"],
-            env={
-                **_base_env,
-                "URA_ACCESS_KEY": settings.ura_access_key,
-            },
-            tool_name_prefix="ura_",
-        )
+        # --- MOE MCP tool ---
+        if settings.moe_mcp_url:
+            logger.info("MOE MCP: HTTP → %s", settings.moe_mcp_url)
+            self._moe_mcp = MCPStreamableHTTPTool(
+                name="moe",
+                url=settings.moe_mcp_url,
+                tool_name_prefix="moe_",
+            )
+        else:
+            logger.info("MOE MCP: local stdio")
+            self._moe_mcp = MCPStdioTool(
+                name="moe",
+                command=_python_exe,
+                args=["-m", "mcp_servers.moe"],
+                env=_base_env,
+                tool_name_prefix="moe_",
+            )
 
-        self._moe_mcp = MCPStdioTool(
-            name="moe",
-            command=_python_exe,
-            args=["-m", "mcp_servers.moe"],
-            env=_base_env,
-            tool_name_prefix="moe_",
-        )
+        tools = [self._onemap_mcp, self._ura_mcp, self._moe_mcp]
+        credential = DefaultAzureCredential()
 
         client = AzureAIClient(
             project_endpoint=settings.azure_ai_project_endpoint,
             model_deployment_name=settings.model_deployment_name,
-            credential=DefaultAzureCredential(),
+            credential=credential,
         )
-
-        tools = [self._onemap_mcp, self._ura_mcp, self._moe_mcp]
         tools.append(AzureAIClient.get_web_search_tool())
         logger.info("Bing web search tool enabled")
 

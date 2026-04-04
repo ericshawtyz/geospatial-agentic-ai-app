@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+name: geospatial-agentic-ai
+metadata:
+  template: geospatial-agentic-ai@0.0.1
+
+services:
+  frontend:
+    project: ./frontend
+    host: containerapp
+    language: ts
+    docker:
+      path: Dockerfile
+      context: .
+
+  backend:
+    project: ./backend
+    host: containerapp
+    language: py
+    docker:
+      path: Dockerfile
+      context: .
+
+  mcp-onemap:
+    project: ./backend
+    host: containerapp
+    language: py
+    docker:
+      path: mcp_servers/onemap/Dockerfile
+      context: .
+
+  mcp-ura:
+    project: ./backend
+    host: containerapp
+    language: py
+    docker:
+      path: mcp_servers/ura/Dockerfile
+      context: .
+
+  mcp-moe:
+    project: ./backend
+    host: containerapp
+    language: py
+    docker:
+      path: mcp_servers/moe/Dockerfile
+      context: .
