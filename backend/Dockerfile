@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
 
 COPY app/ app/
 COPY mcp_servers/ mcp_servers/
+COPY data/ data/
 
 EXPOSE 8000
 

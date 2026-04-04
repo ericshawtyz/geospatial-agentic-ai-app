@@ -10,6 +10,8 @@ from pathlib import Path
 _CITE_TAG_RE = re.compile(r"\bciteturn\d+search\d+\b")
 _CITE_HOLDBACK = 25  # max chars to buffer for split citation tags
 
+from typing import Annotated
+
 from agent_framework import (
     Agent,
     AgentSession,
@@ -22,6 +24,7 @@ from azure.identity import DefaultAzureCredential
 
 from app.agent.prompts import SYSTEM_PROMPT
 from app.config import settings
+from app.services.school_data import search_school
 
 logger = logging.getLogger("geo_agent")
 
@@ -110,6 +113,24 @@ class GeoAgent:
             )
 
         tools = [self._onemap_mcp, self._ura_mcp, self._moe_mcp]
+
+        # --- School detail lookup (local JSON + fuzzy match) ---
+        def lookup_school_details(
+            school_name: Annotated[str, "The name of the school to look up (e.g. 'St Hilda\'s Primary School')"]
+        ) -> str:
+            """Look up detailed information about a Singapore school by name.
+
+            Returns general info, subjects offered, CCAs, distinctive programmes,
+            and more. Uses fuzzy matching to handle typos and abbreviations.
+            """
+            result = search_school(school_name)
+            if result is None:
+                return json.dumps({"error": f"No school found matching '{school_name}'. Try a more specific name."})
+            return json.dumps(result, default=str)
+
+        tools.append(lookup_school_details)
+        logger.info("School detail lookup tool enabled (%s)", "local JSON")
+
         credential = DefaultAzureCredential()
 
         client = AzureAIClient(
