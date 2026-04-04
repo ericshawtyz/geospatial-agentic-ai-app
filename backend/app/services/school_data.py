@@ -31,9 +31,7 @@ def _load() -> None:
         return
     with open(_DATA_PATH, encoding="utf-8") as f:
         _schools = json.load(f)
-    _school_names_upper = [
-        r.get("school_name", "").upper().strip() for r in _schools
-    ]
+    _school_names_upper = [r.get("school_name", "").upper().strip() for r in _schools]
     logger.info("Loaded %d school records from %s", len(_schools), _DATA_PATH)
 
 

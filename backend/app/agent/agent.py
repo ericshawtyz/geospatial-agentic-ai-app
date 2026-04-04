@@ -116,7 +116,10 @@ class GeoAgent:
 
         # --- School detail lookup (local JSON + fuzzy match) ---
         def lookup_school_details(
-            school_name: Annotated[str, "The name of the school to look up (e.g. 'St Hilda\'s Primary School')"]
+            school_name: Annotated[
+                str,
+                "The name of the school to look up (e.g. 'St Hilda's Primary School')",
+            ],
         ) -> str:
             """Look up detailed information about a Singapore school by name.
 
@@ -125,7 +128,11 @@ class GeoAgent:
             """
             result = search_school(school_name)
             if result is None:
-                return json.dumps({"error": f"No school found matching '{school_name}'. Try a more specific name."})
+                return json.dumps(
+                    {
+                        "error": f"No school found matching '{school_name}'. Try a more specific name."
+                    }
+                )
             return json.dumps(result, default=str)
 
         tools.append(lookup_school_details)
