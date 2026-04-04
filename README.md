@@ -23,7 +23,7 @@ A conversational AI agent built with Microsoft Agent Framework and Azure AI Foun
 │  Backend (FastAPI)                                        │
 │  ┌─────────────────────────────────────────────────────┐  │
 │  │  Agent (Microsoft Agent Framework + Azure AI)       │  │
-│  │  - GPT-4o via Azure AI Foundry                      │  │
+│  │  - GPT-5.4 via Azure AI Foundry                     │  │
 │  │  - Bing Web Search (server-side grounding)          │  │
 │  │  - Session management with TTL eviction             │  │
 │  └───┬──────────┬──────────┬───────────────────────────┘  │
@@ -47,7 +47,7 @@ A conversational AI agent built with Microsoft Agent Framework and Azure AI Foun
 
 - Python 3.11+
 - Node.js 18+
-- Azure AI Foundry project with GPT-4o deployment
+- Azure AI Foundry project with GPT-5.4 deployment
 - OneMap API credentials ([register here](https://www.onemap.gov.sg/apidocs/register))
 - URA API access key ([register here](https://eservice.ura.gov.sg/maps/api/reg.html))
 - (Optional) Bing Web Search connection in Azure AI Foundry
@@ -75,7 +75,7 @@ ONEMAP_EMAIL=your-email@example.com
 ONEMAP_PASSWORD=your-onemap-password
 URA_ACCESS_KEY=your-ura-access-key
 AZURE_AI_PROJECT_ENDPOINT=https://<resource>.services.ai.azure.com/api/projects/<project>
-MODEL_DEPLOYMENT_NAME=gpt-4o
+MODEL_DEPLOYMENT_NAME=gpt-5.4
 AZURE_CONTENT_UNDERSTANDING_ENDPOINT=https://<resource>.cognitiveservices.azure.com
 BING_CONNECTION_ID=                         # Optional: Azure AI Foundry Bing connection
 ```
@@ -95,6 +95,91 @@ npm run dev
 ```
 
 Open http://localhost:5173 — the frontend proxies API/WebSocket calls to the backend on port 8000.
+
+### Docker Compose (Local Containers)
+
+Run all services as containers with MCP servers in streamable-http mode:
+
+```bash
+# Copy your .env values — docker-compose reads them automatically
+cp backend/.env .env
+
+docker compose up --build
+```
+
+Open http://localhost:8080 — the frontend nginx reverse-proxies to the backend container.
+
+### Azure Deployment
+
+Deploy to Azure Container Apps using the Azure Developer CLI (`azd`).
+
+**Prerequisites:**
+
+- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) (`azd`)
+- Azure subscription with Contributor access
+- An existing Azure AI Foundry project with a GPT-5.4 deployment
+- Docker (for building container images)
+
+**Deploy:**
+
+```bash
+azd auth login
+azd init          # select the existing project if already initialized
+azd env set AZURE_AI_PROJECT_ENDPOINT "https://<resource>.services.ai.azure.com/api/projects/<project>"
+azd env set AZURE_CONTENT_UNDERSTANDING_ENDPOINT "https://<resource>.cognitiveservices.azure.com"
+azd env set BING_CONNECTION_ID "<your-bing-connection-id>"
+azd env set ONEMAP_EMAIL "<email>"
+azd env set ONEMAP_PASSWORD "<password>"
+azd env set URA_ACCESS_KEY "<key>"
+
+azd up
+```
+
+This provisions: Container Apps Environment, ACR, Key Vault, Log Analytics, User-Assigned Managed Identity, and 5 Container Apps (frontend, backend, mcp-onemap, mcp-ura, mcp-moe). It also assigns the **Cognitive Services User** role on your AI Foundry resource group to the managed identity.
+
+**Architecture (Azure):**
+
+```
+Internet
+   │
+   ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  Azure Container Apps Environment (Southeast Asia)             │
+│                                                                │
+│  ┌──────────┐    nginx     ┌──────────┐                        │
+│  │ frontend │ ──────────── │ backend  │                        │
+│  │ (nginx)  │  reverse     │ (FastAPI)│                        │
+│  │ :8080    │  proxy       │ :8000    │                        │
+│  └──────────┘              └────┬─────┘                        │
+│                          streamable-http                       │
+│                    ┌───────────┼───────────┐                   │
+│                    ▼           ▼           ▼                   │
+│              ┌──────────┐ ┌────────┐ ┌────────┐               │
+│              │mcp-onemap│ │mcp-ura │ │mcp-moe │               │
+│              │ :8000    │ │ :8000  │ │ :8000  │               │
+│              └──────────┘ └────────┘ └────────┘               │
+│                                                                │
+│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐    │
+│  │ Key Vault   │  │ ACR (Basic)  │  │ Log Analytics      │    │
+│  │ (API keys)  │  │ (images)     │  │ (container logs)   │    │
+│  └─────────────┘  └──────────────┘  └────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+         │
+         ▼
+┌────────────────────────────────────┐
+│  Azure AI Foundry (external RG)   │
+│  GPT-5.4 │  Bing  │  Content AI   │
+│  Managed Identity: Cog Svc User   │
+└────────────────────────────────────┘
+```
+
+**Known Limitations:**
+
+- **MOE MCP server returns 403 from Azure** — the MOE website (`moe.gov.sg`) blocks Azure data center IPs. School proximity queries work locally but not from Azure Container Apps. The MOE data files in `backend/data/` serve as a local fallback.
+
+## Roadmap
+
+- **Fabric Data Agent integration** (WIP) — A Microsoft Fabric Data Agent will be added as a tool, enabling the agent to query structured datasets (e.g., school details, enrollment statistics) stored in Fabric lakehouses via natural language.
 
 ## Features
 

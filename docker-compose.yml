@@ -41,7 +41,7 @@ services:
       - ONEMAP_MCP_URL=http://mcp-onemap:8000/mcp
       - URA_MCP_URL=http://mcp-ura:8000/mcp
       - MOE_MCP_URL=http://mcp-moe:8000/mcp
-      - CORS_ORIGINS=["http://localhost:8080"]
+      - CORS_ORIGINS=["http://localhost:8080","http://localhost:5173"]
     ports:
       - "8000:8000"
     depends_on:

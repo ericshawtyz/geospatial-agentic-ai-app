@@ -11,9 +11,12 @@ param location string
 
 // Existing Azure AI Foundry endpoint (not provisioned here)
 param azureAiProjectEndpoint string
-param modelDeploymentName string = 'gpt-4o'
+param modelDeploymentName string = 'gpt-5.4'
 param azureContentUnderstandingEndpoint string = ''
 param bingConnectionId string = ''
+
+// Azure AI Foundry resource details (for role assignment)
+param foundryResourceGroup string = 'rg-sgstu-gen-dev-001'
 
 // API keys (stored in Key Vault)
 @secure()
@@ -198,4 +201,19 @@ module frontend './modules/container-app.bicep' = {
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = containerRegistry.outputs.loginServer
 output AZURE_CONTAINER_REGISTRY_NAME string = containerRegistry.outputs.name
 output FRONTEND_URL string = 'https://frontend.${containerAppsEnv.outputs.defaultDomain}'
-output BACKEND_URL string = 'https://backend.internal.${containerAppsEnv.outputs.defaultDomain}'
+output BACKEND_URL string = 'https://backend.${containerAppsEnv.outputs.defaultDomain}'
+
+// --- Role Assignment: Cognitive Services User on AI Foundry ---
+
+resource foundryRg 'Microsoft.Resources/resourceGroups@2022-09-01' existing = {
+  name: foundryResourceGroup
+}
+
+module cogServicesUserRole './modules/role-assignment.bicep' = {
+  name: 'role-cog-services-user'
+  scope: foundryRg
+  params: {
+    principalId: managedIdentity.outputs.principalId
+    roleDefinitionId: 'a97b65f3-24c7-4388-baec-2e87135dc908' // Cognitive Services User
+  }
+}

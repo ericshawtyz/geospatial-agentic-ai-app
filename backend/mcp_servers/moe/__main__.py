@@ -1,6 +1,7 @@
 import os
 
 from mcp.server.transport_security import TransportSecuritySettings
+
 from mcp_servers.moe.server import mcp
 
 transport = os.environ.get("MCP_TRANSPORT", "stdio")

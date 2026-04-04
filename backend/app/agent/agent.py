@@ -10,7 +10,13 @@ from pathlib import Path
 _CITE_TAG_RE = re.compile(r"\bciteturn\d+search\d+\b")
 _CITE_HOLDBACK = 25  # max chars to buffer for split citation tags
 
-from agent_framework import Agent, AgentSession, MCPStdioTool, MCPStreamableHTTPTool, Message
+from agent_framework import (
+    Agent,
+    AgentSession,
+    MCPStdioTool,
+    MCPStreamableHTTPTool,
+    Message,
+)
 from agent_framework_azure_ai import AzureAIClient
 from azure.identity import DefaultAzureCredential
 
