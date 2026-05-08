@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 import time
 
@@ -69,7 +70,15 @@ async def ura_get(service: str, params: dict | None = None) -> dict:
         },
     )
     resp.raise_for_status()
-    return resp.json()
+    # URA's responses occasionally contain bytes that aren't valid UTF-8 — usually
+    # Latin-1-encoded punctuation in project or street names. httpx's default
+    # decoder is strict about this in the prod container image and raises:
+    #   'utf-8' codec can't decode byte 0xc3 ... invalid continuation byte
+    # Decode tolerantly with replacement so a stray byte doesn't kill the whole
+    # tool call. Replacement characters (U+FFFD) appear only in the field that
+    # had the bad byte; the rest of the JSON parses normally.
+    text = resp.content.decode("utf-8", errors="replace")
+    return json.loads(text)
 
 
 def svy21_to_wgs84(x: float, y: float) -> tuple[float, float]:

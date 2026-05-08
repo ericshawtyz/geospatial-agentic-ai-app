@@ -168,9 +168,18 @@ module backend './modules/container-app.bicep' = {
       { name: 'AZURE_CONTENT_UNDERSTANDING_ENDPOINT', value: azureContentUnderstandingEndpoint }
       { name: 'BING_CONNECTION_ID', value: bingConnectionId }
       { name: 'AZURE_CLIENT_ID', value: managedIdentity.outputs.clientId }
-      { name: 'ONEMAP_MCP_URL', value: 'http://mcp-onemap/mcp' }
-      { name: 'URA_MCP_URL', value: 'http://mcp-ura/mcp' }
-      { name: 'MOE_MCP_URL', value: 'http://mcp-moe/mcp' }
+      // Foundry Agent Service calls these MCP servers from Microsoft-hosted
+      // infra, so the URLs must be publicly reachable HTTPS endpoints.
+      // Each MCP container app already has external ingress (see above),
+      // so we use its public FQDN here.
+      { name: 'ONEMAP_MCP_URL', value: 'https://mcp-onemap.${containerAppsEnv.outputs.defaultDomain}/mcp' }
+      { name: 'URA_MCP_URL', value: 'https://mcp-ura.${containerAppsEnv.outputs.defaultDomain}/mcp' }
+      { name: 'MOE_MCP_URL', value: 'https://mcp-moe.${containerAppsEnv.outputs.defaultDomain}/mcp' }
+      // Prod always runs against Azure AI Foundry Agent Service, with the
+      // backend upserting the hosted agent and Foundry calling the MCP
+      // Container Apps directly. Local dev defaults to chat_completion.
+      { name: 'AGENT_MODE', value: 'foundry_agent_service' }
+      { name: 'FOUNDRY_AGENT_NAME', value: 'geo-agent' }
       { name: 'CORS_ORIGINS', value: '["https://frontend.${containerAppsEnv.outputs.defaultDomain}"]' }
     ]
     secrets: []

@@ -81,49 +81,51 @@ export default function ChatPanel({
           {/* Messages */}
           <MessageList messages={messages} isLoading={isLoading} />
 
-          {/* Quick actions */}
-          <Box sx={{ mt: 3 }}>
-            <Typography
-              variant="subtitle1"
-              sx={{ fontWeight: 500, mb: 1, fontSize: '16px' }}
-            >
-              Quick Actions
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-              {[
-                { label: 'Nearby MRT', handler: handleNearbyMRT },
-                { label: 'Property prices', handler: () => onSendMessage('Show recent private residential property transactions in Orchard Road area') },
-                { label: 'Planning areas', handler: () => onSendMessage('Show me the planning area boundaries for Tampines') },
-              ].map((action) => (
-                <Box
-                  key={action.label}
-                  component="button"
-                  onClick={action.handler}
-                  disabled={isLoading}
-                  sx={{
-                    px: 2,
-                    py: 1,
-                    bgcolor: isLoading ? 'divider' : 'primary.main',
-                    color: 'primary.contrastText',
-                    border: 'none',
-                    borderRadius: 1,
-                    cursor: isLoading ? 'not-allowed' : 'pointer',
-                    fontWeight: 500,
-                    fontSize: '14px',
-                    fontFamily: 'inherit',
-                    opacity: isLoading ? 0.75 : 1,
-                    transition: 'box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: isLoading ? 'none' : '0 1px 3px rgba(0,0,0,0.12)',
-                    '&:hover': {
-                      boxShadow: isLoading ? 'none' : '0 2px 4px rgba(0,0,0,0.14)',
-                    },
-                  }}
-                >
-                  {action.label}
-                </Box>
-              ))}
+          {/* Quick actions — only show before the user's first message */}
+          {!messages.some((m) => m.role === 'user') && (
+            <Box sx={{ mt: 3 }}>
+              <Typography
+                variant="subtitle1"
+                sx={{ fontWeight: 500, mb: 1, fontSize: '16px' }}
+              >
+                Quick Actions
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                {[
+                  { label: 'Nearby MRT', handler: handleNearbyMRT },
+                  { label: 'Property prices', handler: () => onSendMessage('Show recent private residential property transactions in Orchard Road area (District 9)') },
+                  { label: 'Planning areas', handler: () => onSendMessage('Show me the planning area boundaries for Tampines') },
+                ].map((action) => (
+                  <Box
+                    key={action.label}
+                    component="button"
+                    onClick={action.handler}
+                    disabled={isLoading}
+                    sx={{
+                      px: 2,
+                      py: 1,
+                      bgcolor: isLoading ? 'divider' : 'primary.main',
+                      color: 'primary.contrastText',
+                      border: 'none',
+                      borderRadius: 1,
+                      cursor: isLoading ? 'not-allowed' : 'pointer',
+                      fontWeight: 500,
+                      fontSize: '14px',
+                      fontFamily: 'inherit',
+                      opacity: isLoading ? 0.75 : 1,
+                      transition: 'box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: isLoading ? 'none' : '0 1px 3px rgba(0,0,0,0.12)',
+                      '&:hover': {
+                        boxShadow: isLoading ? 'none' : '0 2px 4px rgba(0,0,0,0.14)',
+                      },
+                    }}
+                  >
+                    {action.label}
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          </Box>
+          )}
         </Box>
       </Box>
 

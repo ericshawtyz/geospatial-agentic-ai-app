@@ -6,6 +6,15 @@ A conversational AI agent built with Microsoft Agent Framework and Azure AI Foun
 
 ## Architecture
 
+The backend can run in **two modes**, selected by the `AGENT_MODE` env var:
+
+- `chat_completion` (default, local dev): in-process agent loop using OpenAI Chat Completions over the Foundry project's OpenAI-compatible endpoint. MCP servers run as local stdio subprocesses (or HTTP if a `*_MCP_URL` is provided).
+- `foundry_agent_service` (prod / Container Apps): backend upserts a hosted agent in **Azure AI Foundry Agent Service** that registers the deployed MCP Container Apps as MCP tools. Foundry calls the MCP servers server-side; the backend just streams events to the websocket.
+
+Both modes expose the same websocket event shape, so the frontend is mode-agnostic.
+
+### Local dev (`chat_completion`)
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  Frontend (React + Vite)                                │
@@ -22,13 +31,13 @@ A conversational AI agent built with Microsoft Agent Framework and Azure AI Foun
 ┌───────────────────────────────────────────────────────────┐
 │  Backend (FastAPI)                                        │
 │  ┌─────────────────────────────────────────────────────┐  │
-│  │  Agent (Microsoft Agent Framework + Azure AI)       │  │
-│  │  - GPT-5.4 via Azure AI Foundry                     │  │
-│  │  - Bing Web Search (server-side grounding)          │  │
+│  │  Agent (Microsoft Agent Framework)                  │  │
+│  │  - OpenAIChatCompletionClient → Foundry OpenAI v1   │  │
+│  │  - GPT-5.4-mini deployment (configurable)           │  │
 │  │  - Session management with TTL eviction             │  │
 │  └───┬──────────┬──────────┬───────────────────────────┘  │
 │      │ stdio    │ stdio    │ stdio                        │
-│  ┌───▼───┐  ┌───▼───┐  ┌──▼────┐                         │
+│  ┌───▼───┐  ┌───▼───┐  ┌──▼────┐                          │
 │  │OneMap │  │  URA  │  │  MOE  │                          │
 │  │MCP    │  │ MCP   │  │ MCP   │                          │
 │  │43 tools│ │10 tools│ │4 tools│                          │
@@ -38,19 +47,17 @@ A conversational AI agent built with Microsoft Agent Framework and Azure AI Foun
 
 - **Frontend**: React 19 + TypeScript + Vite + Material UI + Leaflet (OneMap basemap)
 - **Backend**: Python FastAPI with WebSocket streaming
-- **Agent**: Microsoft Agent Framework (`agent-framework`) with Azure AI Foundry
+- **Agent**: Microsoft Agent Framework (`agent-framework-openai`) over Azure AI Foundry's OpenAI-compatible Chat Completions endpoint
 - **MCP Servers**: 3 MCP stdio servers providing 57 tools total
-- **Web Search**: Bing grounding via Azure AI Foundry (server-side)
 - **Auth**: Passcode-protected login page (session-based)
 
 ## Prerequisites
 
 - Python 3.11+
 - Node.js 18+
-- Azure AI Foundry project with GPT-5.4 deployment
+- Azure AI Foundry project with a model deployment (defaults to `gpt-5.4-mini` — any chat model that supports function calling works)
 - OneMap API credentials ([register here](https://www.onemap.gov.sg/apidocs/register))
 - URA API access key ([register here](https://eservice.ura.gov.sg/maps/api/reg.html))
-- (Optional) Bing Web Search connection in Azure AI Foundry
 
 ## Setup
 
@@ -75,9 +82,14 @@ ONEMAP_EMAIL=your-email@example.com
 ONEMAP_PASSWORD=your-onemap-password
 URA_ACCESS_KEY=your-ura-access-key
 AZURE_AI_PROJECT_ENDPOINT=https://<resource>.services.ai.azure.com/api/projects/<project>
-MODEL_DEPLOYMENT_NAME=gpt-5.4
+MODEL_DEPLOYMENT_NAME=gpt-5.4-mini
 AZURE_CONTENT_UNDERSTANDING_ENDPOINT=https://<resource>.cognitiveservices.azure.com
-BING_CONNECTION_ID=                         # Optional: Azure AI Foundry Bing connection
+
+# Agent runtime (defaults to chat_completion for local dev).
+# Set to `foundry_agent_service` only when running in an environment that
+# can reach the deployed MCP container apps over public HTTPS.
+AGENT_MODE=chat_completion
+FOUNDRY_AGENT_NAME=geo-agent
 ```
 
 **Start the backend:**
@@ -113,11 +125,13 @@ Open http://localhost:8080 — the frontend nginx reverse-proxies to the backend
 
 Deploy to Azure Container Apps using the Azure Developer CLI (`azd`).
 
+In Azure, the backend automatically runs in **`foundry_agent_service` mode** (set by the Bicep template). On startup it upserts a hosted agent in your Azure AI Foundry project named `geo-agent`, registers the three MCP container apps as MCP tools, and lets Foundry call them server-side. The local `lookup_school_details` helper is registered as a function tool and executed in the backend via the `requires_action` handshake.
+
 **Prerequisites:**
 
 - [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) (`azd`)
 - Azure subscription with Contributor access
-- An existing Azure AI Foundry project with a GPT-5.4 deployment
+- An existing Azure AI Foundry project with a chat-capable model deployment (defaults to `gpt-5.4-mini`)
 - Docker (for building container images)
 
 **Deploy:**
@@ -126,8 +140,8 @@ Deploy to Azure Container Apps using the Azure Developer CLI (`azd`).
 azd auth login
 azd init          # select the existing project if already initialized
 azd env set AZURE_AI_PROJECT_ENDPOINT "https://<resource>.services.ai.azure.com/api/projects/<project>"
+azd env set MODEL_DEPLOYMENT_NAME "gpt-5.4-mini"
 azd env set AZURE_CONTENT_UNDERSTANDING_ENDPOINT "https://<resource>.cognitiveservices.azure.com"
-azd env set BING_CONNECTION_ID "<your-bing-connection-id>"
 azd env set ONEMAP_EMAIL "<email>"
 azd env set ONEMAP_PASSWORD "<password>"
 azd env set URA_ACCESS_KEY "<key>"
@@ -147,35 +161,37 @@ Internet
 │  Azure Container Apps Environment (Southeast Asia)             │
 │                                                                │
 │  ┌──────────┐    nginx     ┌──────────┐                        │
-│  │ frontend │ ──────────── │ backend  │                        │
-│  │ (nginx)  │  reverse     │ (FastAPI)│                        │
-│  │ :8080    │  proxy       │ :8000    │                        │
-│  └──────────┘              └────┬─────┘                        │
-│                          streamable-http                       │
-│                    ┌───────────┼───────────┐                   │
-│                    ▼           ▼           ▼                   │
-│              ┌──────────┐ ┌────────┐ ┌────────┐               │
-│              │mcp-onemap│ │mcp-ura │ │mcp-moe │               │
-│              │ :8000    │ │ :8000  │ │ :8000  │               │
-│              └──────────┘ └────────┘ └────────┘               │
+│  │ frontend │ ──────────── │ backend  │   upserts hosted agent │
+│  │ (nginx)  │  reverse     │ (FastAPI)│ ───────────────┐       │
+│  │ :8080    │  proxy       │ :8000    │                │       │
+│  └──────────┘              └────┬─────┘                │       │
+│                                 │ run + stream events  │       │
+│                                 ▼                      │       │
+│  ┌──────────┐ ┌────────┐ ┌────────┐                   │       │
+│  │mcp-onemap│ │mcp-ura │ │mcp-moe │ ◄── public HTTPS ──┘       │
+│  │ (ext)    │ │ (ext)  │ │ (ext)  │     called by Foundry      │
+│  └──────────┘ └────────┘ └────────┘                            │
 │                                                                │
 │  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐    │
 │  │ Key Vault   │  │ ACR (Basic)  │  │ Log Analytics      │    │
 │  │ (API keys)  │  │ (images)     │  │ (container logs)   │    │
 │  └─────────────┘  └──────────────┘  └────────────────────┘    │
 └─────────────────────────────────────────────────────────────────┘
-         │
-         ▼
-┌────────────────────────────────────┐
-│  Azure AI Foundry (external RG)   │
-│  GPT-5.4 │  Bing  │  Content AI   │
+         │                                       ▲
+         ▼                                       │
+┌────────────────────────────────────┐           │
+│  Azure AI Foundry (external RG)   │ ──────────┘
+│  GPT-5.4-mini │ Foundry Agent Svc │  thread/run + MCP tool exec
 │  Managed Identity: Cog Svc User   │
 └────────────────────────────────────┘
 ```
 
+The backend container is also pre-wired with `AGENT_MODE=foundry_agent_service`, `FOUNDRY_AGENT_NAME=geo-agent`, and the public HTTPS URLs of each MCP container as `*_MCP_URL`. Override any of these by editing [`infra/main.bicep`](infra/main.bicep) if needed (e.g. to point Foundry at a different agent name per environment).
+
 **Known Limitations:**
 
 - **MOE MCP server returns 403 from Azure** — the MOE website (`moe.gov.sg`) blocks Azure data center IPs. School proximity queries work locally but not from Azure Container Apps. The MOE data files in `backend/data/` serve as a local fallback.
+- **MCP container apps are publicly reachable** — they need external ingress so Foundry can call them. They don't currently enforce auth; if that's a concern, add an API-key header check in each MCP server and call `McpTool.update_headers(...)` in `_FoundryAgentServiceStrategy.initialize()`.
 
 ## Roadmap
 
@@ -189,7 +205,6 @@ Internet
 - **Distance Circles**: School queries draw 1 km (green) and 2 km (orange) radius circles on the map
 - **Geolocation**: Browser location detected and used for "nearby" queries
 - **File Upload**: GeoJSON (renders on map), images/PDFs (OCR + analysis via Azure Content Understanding)
-- **Web Search**: Bing grounding for real-time web information (shown as tool call with cited sources)
 - **Fallback Map Commands**: Auto-extracts coordinates from tool results even when the agent forgets to emit `mapCommands`
 
 ## MCP Servers & Tools (57 total)
